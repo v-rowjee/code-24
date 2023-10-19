@@ -1,6 +1,6 @@
-import {Button} from 'react-bootstrap';
 import logo from './logo.svg';
 import './App.css';
+import Button from '@mui/material/Button';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <p>
           Hello World
         </p>
-        <Button variant="primary">Primary</Button>
+        <Button variant="contained" sx={{textTransform: "none"}}>Hello world</Button>
       </header>
     </div>
   );
