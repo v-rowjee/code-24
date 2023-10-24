@@ -17,7 +17,7 @@ import {
   Button,
 } from "@mui/material";
 import { Menu, Share } from "@mui/icons-material";
-import colours from "./colours";
+import Colours from "./colours";
 
 const drawerWidth = 240;
 const navItems = [
@@ -59,7 +59,8 @@ const DrawerAppBar = () => {
       <CssBaseline />
       <AppBar
         component="nav"
-        style={{ height: "64px", backgroundColor: colours.primaryOrange }}
+        position="static"
+        style={{ height: "64px", backgroundColor: Colours.primaryOrange }}
       >
         <Toolbar>
           <IconButton
@@ -82,8 +83,8 @@ const DrawerAppBar = () => {
             <Button
               variant="outlined"
               sx={{
-                color: colours.lightText,
-                borderColor: colours.lightText,
+                color: Colours.lightText,
+                borderColor: Colours.lightText,
               }}
               startIcon={<Share />}
             >
@@ -106,23 +107,12 @@ const DrawerAppBar = () => {
               boxSizing: "border-box",
               width: drawerWidth,
             },
+            backgroundColor: Colours.secondaryOrange,
           }}
         >
           {drawer}
         </Drawer>
       </nav>
-      <Box
-        component="main"
-        sx={{
-          p: 3,
-          backgroundColor: colours.background,
-          flex: 1,
-          height: "100vh",
-        }}
-      >
-        <Toolbar />
-        <Typography>Hello World.</Typography>
-      </Box>
     </Box>
   );
 };
