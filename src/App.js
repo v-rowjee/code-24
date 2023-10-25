@@ -1,18 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
-import Button from '@mui/material/Button';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from './pages/login';
+import Home from './pages/home';
+import Meeting from './pages/meeting';
+import { ThemeProvider } from '@mui/material';
+import theme from './config/theme';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello World
-        </p>
-        <Button variant="contained" sx={{textTransform: "none"}}>Hello world</Button>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route index element={<Home />} />
+          <Route path="/meeting/:meetingId" element={<Meeting />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

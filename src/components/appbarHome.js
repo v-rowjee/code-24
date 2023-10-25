@@ -9,6 +9,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import Colours from '../colours';
 
+// import UserAuth from '../config/auth';
+
 
 // search input field
 const Search = styled('div')(({ theme }) => ({
@@ -45,9 +47,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width: '30ch',
+            width: '25ch',
             '&:focus': {
-                width: '40ch',
+                width: '35ch',
             },
         },
     },
@@ -66,8 +68,6 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-// Drawer responsive
-const navItems = ['Home', 'About', 'Contact'];
 
 
 export default function AppBarHome() {
@@ -79,6 +79,17 @@ export default function AppBarHome() {
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
+
+
+    // const { user, logOut } = UserAuth();
+
+    const handleLogOut = async () => {
+        try {
+            // await logOut()
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -101,7 +112,7 @@ export default function AppBarHome() {
                     >
                         CODE-24
                     </Typography>
-                    <Search sx={{ mr: 3 }}>
+                    <Search sx={{ mr: 2 }}>
                         <SearchIconWrapper>
                             <LinkIcon />
                         </SearchIconWrapper>
@@ -114,7 +125,9 @@ export default function AppBarHome() {
                         ref={fileInput}
                         variant="contained"
                         sx={{
-                            px: { xs: 4, md: 2 },
+                            px: { xs: 3, sm: 1, md: 2 },
+                            mr: 2,
+                            textTransform: 'none',
                             display: { xs: "none", sm: 'flex' },
                             backgroundColor: alpha(Colours.secondaryOrange, 0.8),
                             "&:hover": { backgroundColor: Colours.secondaryOrange }
@@ -124,6 +137,21 @@ export default function AppBarHome() {
                     >
                         Upload
                         <VisuallyHiddenInput type="file" />
+                    </Button>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            px: { xs: 3, sm: 1, md: 2 },
+                            display: { xs: "none", sm: 'flex' },
+                            textTransform: 'none',
+                            backgroundColor: alpha(Colours.secondaryOrange, 0.8),
+                            "&:hover": { backgroundColor: Colours.secondaryOrange }
+                        }}
+                        startIcon={<LogoutIcon />}
+                        disableElevation
+                        onClick={handleLogOut}
+                    >
+                        Log Out
                     </Button>
                     <IconButton
                         sx={{ display: { xs: "flex", sm: 'none' } }}
