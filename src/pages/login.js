@@ -11,16 +11,15 @@ import GoogleIcon from '@mui/icons-material/Google';
 import meeting from '../assets/meeting.png';
 import Colours from '../colours';
 
-// import UserAuth from '../config/auth';
+import { UserAuth } from '../config/auth';
 
 
 const Login = () => {
-
-    //const { googleSignIn } = UserAuth();
+    const { googleSignIn, user } = UserAuth();
 
     const handleGoogleSignIn = async () => {
         try {
-            //await googleSignIn();
+            await googleSignIn();
         } catch (error) {
             console.error(error)
         }

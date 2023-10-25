@@ -69,18 +69,18 @@ const Home = () => {
         setMeetingType(event.target.value);
     };
 
-    // React.useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const { data } = await axios.get(`https://rickandmortyapi.com/api/character/?name=${query}`)
-    //             setMeetings(data.results)
-    //         } catch (error) {
-    //             console.error(error)
-    //         }
-    //     }
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const { data } = await axios.get(`http://130.61.208.173:5000/transcription/${query}`)
+                setMeetings(data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
 
-    //     fetchData()
-    // }, [query, setMeetings])
+        fetchData()
+    }, [query, setMeetings])
 
     return (
         <>
