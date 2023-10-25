@@ -51,7 +51,7 @@ const a11yProps = (index) => {
   };
 };
 
-const Meeting = (meetingId) => {
+const Meeting = ({ meetingId }) => {
   //tabs
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
@@ -88,7 +88,7 @@ const Meeting = (meetingId) => {
           marginTop="24px"
           sx={{ borderRight: 1, borderColor: "divider" }}
         >
-          <Transcript />
+          <Transcript meetingId={meetingId} />
         </Grid>
 
         <Grid
