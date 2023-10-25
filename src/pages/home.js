@@ -2,9 +2,8 @@ import React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import { Grid, Stack, Select, MenuItem, Typography, Box, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import MeetingCard from '../components/meetingCard';
-import AppBar from '../AppBar';
+import AppBar from '../components/appbarHome';
 import Colours from '../colours';
 import axios from 'axios';
 import { MeetingRoom } from '@mui/icons-material';
@@ -91,7 +90,7 @@ const Home = () => {
                     <Grid item xs={12} md={6}>
                         <Stack direction="row" justifyContent="start" alignItems="center">
                             {/* <MeetingRoom sx={{ fontSize: 40, mr: 1 }} /> */}
-                            <Typography component="h1" variant="h3" fontWeight="bold" sx={{ py: 3 }}>Meetings</Typography>
+                            <Typography component="h1" variant="h3" fontWeight="bold" sx={{ pb: 2, pt: 1 }}>Meetings</Typography>
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -99,12 +98,12 @@ const Home = () => {
                             <Select
                                 value={meetingType}
                                 onChange={handleChange}
-                                sx={{ mr: 2, px: 2 }}
+                                sx={{ mr: 2, px: { md: 2 } }}
                                 size='small'
                             >
-                                <MenuItem value={"All"} sx={{ px: 2 }} selected>All Meetings</MenuItem>
-                                <MenuItem value={"Hosted"} sx={{ px: 2 }}>Hosted Only</MenuItem>
-                                <MenuItem value={"Shared"} sx={{ px: 2 }}>Shared Only</MenuItem>
+                                <MenuItem value={"All"} sx={{ px: { md: 2 } }} selected>All Meetings</MenuItem>
+                                <MenuItem value={"Hosted"} sx={{ px: { md: 2 } }}>Hosted Only</MenuItem>
+                                <MenuItem value={"Shared"} sx={{ px: { md: 2 } }}>Shared Only</MenuItem>
                             </Select>
                             <Search>
                                 <SearchIconWrapper>

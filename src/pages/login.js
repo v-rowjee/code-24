@@ -1,16 +1,31 @@
 import * as React from 'react';
+
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import GoogleIcon from '@mui/icons-material/Google';
+
 import meeting from '../assets/meeting.png';
-import colours from '../colours';
+import Colours from '../colours';
+
+// import UserAuth from '../config/auth';
 
 
-export default function Login() {
+const Login = () => {
+
+    //const { googleSignIn } = UserAuth();
+
+    const handleGoogleSignIn = async () => {
+        try {
+            //await googleSignIn();
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <Grid container component="main" sx={{ height: '100vh' }} >
             <Grid
@@ -20,7 +35,7 @@ export default function Login() {
                 sx={{
                     display: { xs: 'none', md: 'block' },
                     backgroundImage: `url(${meeting})`,
-                    backgroundColor: colours.secondaryOrange,
+                    backgroundColor: Colours.secondaryOrange,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'contain',
                     backgroundPosition: 'center',
@@ -50,17 +65,18 @@ export default function Login() {
                     <Box>
                         <Button
                             variant="contained"
-                            sx={{ mt: 1, mb: 3 }}
+                            size='large'
+                            sx={{ mt: 1, mb: 3, textTransform: "none", color: Colours.lightText }}
+                            startIcon={<GoogleIcon sx={{ mr: 1 }} />}
+                            onClick={handleGoogleSignIn}
                         >
-                            Continue With Google
+                            Continue with Google
                         </Button>
-                        <br />
-                        <Link href="#" variant="p">
-                            {"Don't have an account? Sign Up"}
-                        </Link>
                     </Box>
                 </Box>
             </Grid>
         </Grid>
     )
 }
+
+export default Login;

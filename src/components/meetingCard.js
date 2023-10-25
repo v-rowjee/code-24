@@ -49,32 +49,32 @@ export default function MeetingCard(props) {
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div style={{ display: 'flex' }}>
                             <GroupIcon fontSize="small" sx={{ mr: 1, mt: 0.2 }} />
-                            <Stack direction="row" alignItems="center" sx={{ minWidth: 0, mr: 15 }}>
+                            <Stack direction="row" alignItems="center" sx={{ minWidth: 0, mr: { md: 15 } }}>
                                 <Typography>{speakers}</Typography>
                             </Stack>
                         </div>
                     </Typography>
                 </CardContent>
-                <CardContent sx={{ my: 1}}>
+                <CardContent sx={{ my: 1 }}>
                     <Stack
                         direction="row"
                         alignItems="center"
-                        spacing={6}
+                        spacing={{ xs: 2, sm: 6 }}
                     >
-                        <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex', alignItems: "center" }}>
                             <EventIcon fontSize="small" sx={{ mr: 1 }} />
                             <Typography variant="body2" color="textSecondary">
                                 {meetingData.date}
                             </Typography>
                         </div>
-                        <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex', alignItems: "center" }}>
                             <AccessTimeIcon fontSize="small" sx={{ mr: 1 }} />
                             <Typography variant="body2" color="textSecondary">
                                 {meetingData.startTime}
                             </Typography>
                         </div>
 
-                        <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex', alignItems: "center" }}>
                             <TimelapseIcon fontSize="small" sx={{ mr: 1 }} />
                             <Typography variant="body2" color="textSecondary">
                                 {meetingData.duration}
