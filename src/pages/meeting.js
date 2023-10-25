@@ -1,15 +1,6 @@
-import React from "react";
-import {
-  Grid,
-  Typography,
-  Divider,
-  Box,
-  Tabs,
-  Tab,
-  Tooltip,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Grid, Typography, Box, Tabs, Tab, Tooltip } from "@mui/material";
 import DrawerAppBar from "../AppBar";
-import Colours from "../colours";
 import PropTypes from "prop-types";
 import {
   TextSnippet,
@@ -24,6 +15,8 @@ import ActionItemsTab from "../components/actionItems";
 import SentimentAnalysisTab from "../components/sentimentAnalysis";
 import MeetingInsightsTab from "../components/meetingInsights";
 import Transcript from "../components/transcript";
+
+const breakpoint = 600;
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -58,12 +51,24 @@ const a11yProps = (index) => {
   };
 };
 
-const Meeting = () => {
-  const [value, setValue] = React.useState(0);
-
+const Meeting = (meetingId) => {
+  //tabs
+  const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  //responsive screen
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener("resize", handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener("resize", handleResizeWindow);
+    };
+  }, []);
 
   return (
     <div>
@@ -108,61 +113,64 @@ const Meeting = () => {
             <MeetingInsightsTab />
           </TabPanel>
         </Grid>
-
-        <Grid item xs={12} md={1}>
-          <Tabs
-            orientation="vertical"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-          >
-            <Tab
-              icon={
-                <Tooltip title="Summary" placement="left">
-                  <TextSnippet />
-                </Tooltip>
-              }
-              aria-label="summary"
-              {...a11yProps(0)}
-            />
-            <Tab
-              icon={
-                <Tooltip title="Key Points" placement="left">
-                  <VpnKey />
-                </Tooltip>
-              }
-              aria-label="key points"
-              {...a11yProps(1)}
-            />
-            <Tab
-              icon={
-                <Tooltip title="Action Items" placement="left">
-                  <ListAlt />
-                </Tooltip>
-              }
-              aria-label="action items"
-              {...a11yProps(2)}
-            />
-            <Tab
-              icon={
-                <Tooltip title="Sentiment Analysis" placement="left">
-                  <SentimentSatisfied />
-                </Tooltip>
-              }
-              aria-label="sentiment analysis"
-              {...a11yProps(3)}
-            />
-            <Tab
-              icon={
-                <Tooltip title="Meeting Insights" placement="left">
-                  <PendingActions />
-                </Tooltip>
-              }
-              aria-label="meeting insights"
-              {...a11yProps(4)}
-            />
-          </Tabs>
-        </Grid>
+        {width >= breakpoint ? (
+          <Grid item xs={12} md={1}>
+            <Tabs
+              orientation="vertical"
+              value={value}
+              onChange={handleChange}
+              aria-label="Vertical tabs example"
+            >
+              <Tab
+                icon={
+                  <Tooltip title="Summary" placement="left">
+                    <TextSnippet />
+                  </Tooltip>
+                }
+                aria-label="summary"
+                {...a11yProps(0)}
+              />
+              <Tab
+                icon={
+                  <Tooltip title="Key Points" placement="left">
+                    <VpnKey />
+                  </Tooltip>
+                }
+                aria-label="key points"
+                {...a11yProps(1)}
+              />
+              <Tab
+                icon={
+                  <Tooltip title="Action Items" placement="left">
+                    <ListAlt />
+                  </Tooltip>
+                }
+                aria-label="action items"
+                {...a11yProps(2)}
+              />
+              <Tab
+                icon={
+                  <Tooltip title="Sentiment Analysis" placement="left">
+                    <SentimentSatisfied />
+                  </Tooltip>
+                }
+                aria-label="sentiment analysis"
+                {...a11yProps(3)}
+              />
+              <Tab
+                icon={
+                  <Tooltip title="Meeting Insights" placement="left">
+                    <PendingActions />
+                  </Tooltip>
+                }
+                aria-label="meeting insights"
+                {...a11yProps(4)}
+              />
+            </Tabs>
+          </Grid>
+        ) : (
+          ""
+        )}
       </Grid>
     </div>
   );
