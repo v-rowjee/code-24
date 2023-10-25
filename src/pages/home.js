@@ -8,6 +8,7 @@ import Colours from '../colours';
 import axios from 'axios';
 import { MeetingRoom } from '@mui/icons-material';
 
+// Search input field
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -50,14 +51,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
+// Meeting data
 const meetingData = {
-    name: 'xwk-rivn-dlk',
+    id: 'xwk-rivn-dlk',
     speakers: ['Jean Black', 'Paul White', 'Pierre Brown', 'Jack Green'],
     startTime: '10:35',
     duration: '13 min',
     date: '25 Oct 2023',
     hostName: 'John Doe',
 };
+
 
 const Home = () => {
 
