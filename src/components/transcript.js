@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Divider, Stack, Avatar, Box } from "@mui/material";
 import Colours from "../colours";
-import BottomAppBar from "./audioPlayer";
 import API_URLS from "../url";
 import axios from "axios";
+import AudioPlayerBar from "./audioPlayer";
 
 const Transcript = ({ meetingId }) => {
   const [transcriptData, setTranscriptData] = useState([]);
@@ -51,7 +51,7 @@ const Transcript = ({ meetingId }) => {
           <Divider />
         </Stack>
       ))}
-      {/* <BottomAppBar /> */}
+      <AudioPlayerBar />
     </Box>
   );
 };

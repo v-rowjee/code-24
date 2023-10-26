@@ -21,7 +21,7 @@ export default function MeetingCard(props) {
     }
 
     return (
-        <Card elevation={2} sx={{ borderRadius: '7px' }}>
+        <Card sx={{ borderRadius: '7px' }}>
             <CardActionArea
                 component="button"
                 onClick={handleRedirectToMeeting}
