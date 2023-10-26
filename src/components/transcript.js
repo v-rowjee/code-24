@@ -13,12 +13,11 @@ import {
 import Colours from "../colours";
 import API_URLS from "../url";
 import axios from "axios";
-import testAudio from "../assets/testAudio.wav";
 
 const Transcript = ({ meetingId }) => {
   const [transcriptData, setTranscriptData] = useState([]);
 
-  const fetchInfo = async () => {
+  const fetchTranscript = async () => {
     try {
       const idToken = localStorage.getItem("token_flask");
       const headers = {
@@ -33,8 +32,26 @@ const Transcript = ({ meetingId }) => {
     }
   };
 
+  const [audioData, setAudioData] = useState("");
+
+  const fetchAudio = async () => {
+    try {
+      const idToken = localStorage.getItem("token_flask");
+      const headers = {
+        Authorization: `${idToken}`,
+      };
+      const response = await axios.get(API_URLS.getAudio(meetingId), {
+        headers,
+      });
+      setAudioData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    fetchInfo();
+    fetchTranscript();
+    fetchAudio();
   }, []);
 
   //sync audio with transcript
@@ -42,8 +59,10 @@ const Transcript = ({ meetingId }) => {
 
   const handleClickTranscript = (timestamp) => {
     if (timestamp.length === 9) {
+      //format: "hh:mm:ss.fff"
       timestamp = timestamp.slice(0, 5);
     } else {
+      //format: "mm:ss.fff"
       timestamp = timestamp.slice(0, 8);
     }
 
@@ -107,7 +126,7 @@ const Transcript = ({ meetingId }) => {
       >
         <AudioPlayer
           ref={audioPlayerRef}
-          src={testAudio}
+          src={audioData.audio}
           style={{ marginBottom: "10px", borderRadius: "5px" }}
           progressJumpStep={10000}
         />

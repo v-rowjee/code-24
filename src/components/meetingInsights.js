@@ -18,7 +18,6 @@ const MeetingInsightsTab = ({ meetingId }) => {
     try {
       const response = await axios.get(API_URLS.getEfficiencyMetric(meetingId));
       setSpeakerParticipationData(response.data);
-      console.log({ speakerParticipation: response.data });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -37,10 +36,6 @@ const MeetingInsightsTab = ({ meetingId }) => {
     fetchSpeakerInfo();
     fetchSentimentInfo();
   }, []);
-
-  console.log({
-    test1: speakerParticipationData?.efficiency_metric?.speakers_details,
-  });
 
   const data = {
     labels: ["Negative", "Neutral", "Positive"],

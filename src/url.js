@@ -11,7 +11,7 @@ const API_URLS = {
     `${BASE_URL}/efficiency_metric/${meetingId}`,
   getSentimentScore: (meetingId) => `${BASE_URL}/sentiment_score/${meetingId}`,
   getKeypoint: (meetingId) => `${BASE_URL}/keypoint/${meetingId}`,
-  getAudio: (meetingId) => `${BASE_URL}/audio/${meetingId}`,
+  getAudio: (meetingId) => `${BASE_URL}/retrieve_audio/${meetingId}`,
   //home
   getMeeting: (userId) => `${BASE_URL}/meeting/${userId}`,
   postMeetingUrl: () => `${BASE_URL}/rpa_bot/`,
