@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Typography, Box, Tabs, Tab, Tooltip } from "@mui/material";
-import DrawerAppBar from "../AppBar";
+import DrawerAppBar from "../components/appbarMeeting";
 import PropTypes from "prop-types";
 import {
   TextSnippet,
