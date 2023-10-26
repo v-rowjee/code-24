@@ -22,6 +22,7 @@ export const AuthContextProvider = ({ children }) => {
       const userEmail = result.user.email;
       localStorage.setItem('user_id', user_id);
       localStorage.setItem('token_flask', idToken);
+      localStorage.setItem('user_email', userEmail);
     } catch (error) {
       console.error(error);
     }

@@ -99,11 +99,12 @@ const AppBarHome = () => {
         const audioFile = fileInput.current.files[0];
 
         const userId = localStorage.getItem('user_id') // Replace this with your actual user_id logic
-
+        const userEmail = localStorage.getItem('user_email') // Replace this with your actual user_email logic
         if (audioFile && userId) {
             formData.append('audio', audioFile);
             formData.append('user_id', userId);
             formData.append('filename', audioFile.name);
+            formData.append('user_email', userEmail)
             console.log("sendind audio file")
             fetch(API_URL.postAudio, {
                 method: 'POST',
