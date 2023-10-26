@@ -20,16 +20,18 @@ export const AuthContextProvider = ({ children }) => {
       const idToken = await result.user.getIdToken(); // Get the ID token after successful sign-in
       const user_id = result.user.uid;
       const userEmail = result.user.email;
+      const userName = result.user.displayName;
       localStorage.setItem('user_id', user_id);
       localStorage.setItem('token_flask', idToken);
       localStorage.setItem('user_email', userEmail);
+      localStorage.setItem('user_name', userName);
     } catch (error) {
       console.error(error);
     }
   };
 
   const googleSignOut = () => {
-      signOut(auth)
+    signOut(auth)
   }
 
   useEffect(() => {

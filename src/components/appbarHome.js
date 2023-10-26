@@ -103,13 +103,13 @@ const AppBarHome = () => {
 
         const userId = localStorage.getItem('user_id') // Replace this with your actual user_id logic
         const userEmail = localStorage.getItem('user_email') // Replace this with your actual user_email logic
-
+        const userName = localStorage.getItem('user_name') // Replace this with your actual user_name logic
         if (audioFile && userId) {
             formData.append('audio', audioFile);
             formData.append('user_id', userId);
             formData.append('user_email', userEmail)
             formData.append('filename', audioFile.name);
-
+            formData.append('user_name', userName)
             setUploadIsLoading(true);
             toast("Uploading file")
 
