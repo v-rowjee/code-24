@@ -76,6 +76,8 @@ const googleMeetUrlPattern = /^(https?:\/\/)?(www\.)?meet\.google\.com\/[a-z]{3}
 
 
 const AppBarHome = () => {
+    const fileInput1 = useRef(null);
+
     const { googleSignOut } = UserAuth();
     const fileInput = React.useRef();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -102,6 +104,7 @@ const AppBarHome = () => {
         if (audioFile && userId) {
             formData.append('audio', audioFile);
             formData.append('user_id', userId);
+            formData.append('filename', audioFile.name);
             console.log("sendind audio file")
             // Now you can send the formData to your API endpoint using fetch or axios
             fetch('http://130.61.208.173:5000/audio/', {
