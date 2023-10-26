@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
-import { Typography, Divider, Stack, Avatar, Box, Button, Paper } from "@mui/material";
+import {
+  Typography,
+  Divider,
+  Stack,
+  Avatar,
+  Box,
+  Button,
+  Paper,
+} from "@mui/material";
 import Colours from "../colours";
 import API_URLS from "../url";
 import axios from "axios";
-import AudioPlayerBar from "./audioPlayer";
-import testAudio from "../assets/testAudio.wav"
-
+import testAudio from "../assets/testAudio.wav";
 
 const Transcript = ({ meetingId }) => {
   const [transcriptData, setTranscriptData] = useState([]);
@@ -16,9 +22,11 @@ const Transcript = ({ meetingId }) => {
     try {
       const idToken = localStorage.getItem("token_flask");
       const headers = {
-        Authorization: `${idToken}`
+        Authorization: `${idToken}`,
       };
-      const response = await axios.get(API_URLS.getTranscripts(meetingId), { headers });
+      const response = await axios.get(API_URLS.getTranscripts(meetingId), {
+        headers,
+      });
       setTranscriptData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -29,9 +37,30 @@ const Transcript = ({ meetingId }) => {
     fetchInfo();
   }, []);
 
-  const handleClickTranscript = (time) => {
-    alert(time)
-  }
+  //sync audio with transcript
+  const audioPlayerRef = useRef(null);
+
+  const handleClickTranscript = (timestamp) => {
+    if (timestamp.length === 9) {
+      timestamp = timestamp.slice(0, 5);
+    } else {
+      timestamp = timestamp.slice(0, 8);
+    }
+
+    // Convert the timestamp to seconds
+    const [hours, minutes, seconds] = timestamp.split(":");
+    const totalSeconds =
+      parseInt(hours, 10) * 3600 +
+      parseInt(minutes, 10) * 60 +
+      parseInt(seconds);
+    console.log(totalSeconds);
+
+    if (audioPlayerRef.current && audioPlayerRef.current.audio.current) {
+      const audioElement = audioPlayerRef.current.audio.current;
+      audioElement.currentTime = 60;
+      audioElement.play();
+    }
+  };
 
   return (
     <Box marginRight="24px">
@@ -53,7 +82,16 @@ const Transcript = ({ meetingId }) => {
             </Typography>
           </Stack>
           <Box textAlign="start">
-            <Button sx={{ textAlign: "start", textTransform: 'none', color: Colours.darkText }} onClick={() => { handleClickTranscript(item.start_time) }}>
+            <Button
+              sx={{
+                textAlign: "start",
+                textTransform: "none",
+                color: Colours.darkText,
+              }}
+              onClick={() => {
+                handleClickTranscript(item.start_time);
+              }}
+            >
               {item.text}
             </Button>
           </Box>
@@ -62,14 +100,16 @@ const Transcript = ({ meetingId }) => {
       ))}
       <Paper
         sx={{
-          position: 'sticky',
+          position: "sticky",
           bottom: 6,
-          mt: 2
+          mt: 2,
         }}
       >
         <AudioPlayer
+          ref={audioPlayerRef}
           src={testAudio}
           style={{ marginBottom: "10px", borderRadius: "5px" }}
+          progressJumpStep={10000}
         />
       </Paper>
     </Box>
