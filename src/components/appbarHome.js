@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import axios from 'axios';
 import { styled, alpha } from '@mui/material/styles';
-import { Button, InputBase, IconButton, ListItemText, ListItem, List, ListItemButton, Divider, Drawer, ListItemIcon, Typography, AppBar, Box, Toolbar, InputAdornment } from '@mui/material';
+import { MuiAlert, Button, InputBase, IconButton, ListItemText, ListItem, List, ListItemButton, Divider, Drawer, ListItemIcon, Typography, AppBar, Box, Toolbar, InputAdornment, Alert } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -12,8 +12,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Colours from '../colours';
 
 import { UserAuth } from '../config/auth';
-import { file } from '@babel/types';
-
+import API_URL from '../url';
 
 // search input field
 const Search = styled('div')(({ theme }) => ({
@@ -96,33 +95,29 @@ const AppBarHome = () => {
     const handleUpload = () => {
         const formData = new FormData();
         const audioFile = fileInput.current.files[0];
-        
+
         const userId = localStorage.getItem('user_id') // Replace this with your actual user_id logic
-    
+
         if (audioFile && userId) {
             formData.append('audio', audioFile);
             formData.append('user_id', userId);
             console.log("sendind audio file")
-            // Now you can send the formData to your API endpoint using fetch or axios
-            fetch('http://130.61.208.173:5000/audio/', {
+            fetch(API_URL.postAudio, {
                 method: 'POST',
                 body: formData,
             })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response from the server
-                console.log('Upload successful:', data);
-            })
-            .catch(error => {
-                // Handle errors here
-                console.error('Error uploading file:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    <Alert severity="success">File uploaded successfully</Alert>
+                })
+                .catch(error => {
+                    console.error('Error uploading file:', error);
+                });
         } else {
-            // Handle the case where either audio file or user_id is missing
             console.error('Audio file or user_id is missing');
         }
     };
-    
+
 
 
     const handleChangeMeetingURL = (event) => {
@@ -143,39 +138,18 @@ const AppBarHome = () => {
         const isValid = googleMeetUrlPattern.test(input);
         setIsMeetingUrlDisabled(!isValid);
 
-        const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJUTkVOMEl5T1RWQk1UZEVRVEEzUlRZNE16UkJPVU00UVRRM016TXlSalUzUmpnMk4wSTBPQSJ9.eyJodHRwczovL3VpcGF0aC9lbWFpbCI6Imxvby5raW0tc29vMUB1bWFpbC51b20uYWMubXUiLCJodHRwczovL3VpcGF0aC9lbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50LnVpcGF0aC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDc0MDE5ODcwNjA3NTk2NDQyMjciLCJhdWQiOlsiaHR0cHM6Ly9vcmNoZXN0cmF0b3IuY2xvdWQudWlwYXRoLmNvbSIsImh0dHBzOi8vdWlwYXRoLmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2OTgzMDI1NDAsImV4cCI6MTY5ODM4ODk0MCwiYXpwIjoiOERFdjFBTU5YY3pXM3k0VTE1TEwzallmNjJqSzkzbjUiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIG9mZmxpbmVfYWNjZXNzIn0.igQUbXUZLujAwo42WmWFmm-5YQPg8vJJgWuwdZh0_e6GdguGlWsnvICM6Xe1d-aAJ9GAjZ_IeyJYnD01Rsdd4t1St1Pm3HfsXM8BVwto48lsh10qQ1Yu1nnii-FBGubHs6WaSjsec6WP4Gn1U8rStZ8mdoFRFHtxWLUaThdDc6nZ9T8aLMbczg18aRXaPae9OV8b3A2Sa9uqBMmtJ-r8zVOpxACcNDcKDfPdyJjIQuaBAe1kQUKQnxAPzqGUXvXnMACPw9TjXTYqmSzDqOq707K1XRvHP5V6_tMh_tBkBGd4dflmWNLkiEpaATWa7MJ2o3vKCGuKB9_lq87XJw18lQ"; // Replace 'YOUR_ACCESS_TOKEN' with your actual access token
-
-        await axios.post('https://cloud.uipath.com/uomvcizzgy/DefaultTenant/orchestrator_/odata/Queues/UiPathODataSvc.AddQueueItem', {
-            itemData: {
-                DeferDate: "2021-03-11T14:19:56.4407392Z",
-                DueDate: "2021-03-11T15:19:56.4407392Z",
-                Priority: "Normal",
-                Name: "GmeetStartRecording",
-                SpecificContent: {
-                    "meetURL@odata.type": "#String",
-                    meetURL: `${meetingUrl}`,
-                    "newRecordID@odata.type": "#String",
-                    newRecordID: "92376",
-                    "dBChromeProfilePath@odata.type": "#String",
-                    dBChromeProfilePath: "C:/Alex/Docs1/1_Codings/RPA_UIPath/ChromeProfiles/BrowserDataFolder",
-                    "machineID@odata.type": "#String",
-                    machineID: "1"
-                },
-                Reference: "92376"
-            }
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-                'X-UIPATH-OrganizationUnitId': 4854455
-            }
+        await axios.post(API_URL.postMeetingUrl, {
+            "meetURL": meetingUrl
         })
             .then(response => {
-                console.log('Queue item added successfully:', response.data);
+                <Alert severity="success">Recording will start soon</Alert>
             })
             .catch(error => {
-                console.error('Error adding queue item:', error);
-            });
+                <Alert severity="error">Error in starting recording</Alert>
+            })
+            .finally(() => {
+                setMeetingURL('');
+            })
     }
 
     return (
@@ -228,6 +202,7 @@ const AppBarHome = () => {
                         }}
                         startIcon={<CloudUploadIcon />}
                         disableElevation
+                        loading={true}
                     >
                         Upload
                         <VisuallyHiddenInput type="file"
