@@ -9,10 +9,8 @@ import {
   Typography,
   Divider,
   IconButton,
-  // Link,
   ListItem,
   ListItemButton,
-  // ListItemIcon,
   ListItemText,
   Button,
 } from "@mui/material";
@@ -59,7 +57,7 @@ const DrawerAppBar = () => {
       <CssBaseline />
       <AppBar
         component="nav"
-        position="static"
+        position="fixed"
         style={{ height: "64px", backgroundColor: Colours.primaryOrange }}
       >
         <Toolbar>
