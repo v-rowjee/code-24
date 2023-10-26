@@ -8,8 +8,6 @@ import Meeting from "./pages/meeting";
 import Protected from "./components/protected";
 import theme from "./config/theme";
 
-const meetingId = "kabcdef";
-
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -17,10 +15,21 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route index element={<Protected><Home /></Protected>} />
+            <Route
+              index
+              element={
+                <Protected>
+                  <Home />
+                </Protected>
+              }
+            />
             <Route
               path="/meeting/:meetingId"
-              element={<Protected><Meeting meetingId={meetingId} /></Protected>}
+              element={
+                <Protected>
+                  <Meeting />
+                </Protected>
+              }
             />
           </Routes>
         </BrowserRouter>

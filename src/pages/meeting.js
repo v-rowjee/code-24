@@ -15,6 +15,7 @@ import ActionItemsTab from "../components/actionItems";
 import SentimentAnalysisTab from "../components/sentimentAnalysis";
 import MeetingInsightsTab from "../components/meetingInsights";
 import Transcript from "../components/transcript";
+import { useParams } from "react-router-dom";
 
 const breakpoint = 600;
 
@@ -51,7 +52,8 @@ const a11yProps = (index) => {
   };
 };
 
-const Meeting = ({ meetingId }) => {
+const Meeting = () => {
+  const { meetingId } = useParams();
   //tabs
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
