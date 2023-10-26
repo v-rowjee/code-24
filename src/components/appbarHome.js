@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import axios from 'axios';
 import { styled, alpha } from '@mui/material/styles';
 import { Button, InputBase, IconButton, ListItemText, ListItem, List, ListItemButton, Divider, Drawer, ListItemIcon, Typography, AppBar, Box, Toolbar, InputAdornment } from '@mui/material';
@@ -12,6 +12,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Colours from '../colours';
 
 import { UserAuth } from '../config/auth';
+import { file } from '@babel/types';
 
 
 // search input field
@@ -75,6 +76,8 @@ const googleMeetUrlPattern = /^(https?:\/\/)?(www\.)?meet\.google\.com\/[a-z]{3}
 
 
 const AppBarHome = () => {
+    const fileInput1 = useRef(null);
+
     const { googleSignOut } = UserAuth();
     const fileInput = React.useRef();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -92,7 +95,35 @@ const AppBarHome = () => {
             console.error(error)
         }
     }
-
+    const handleUpload = () => {
+        const formData = new FormData();
+        const audioFile = fileInput.current.files[0];
+        const userId = '1234'; // Replace this with your actual user_id logic
+    
+        if (audioFile && userId) {
+            formData.append('audio', audioFile);
+            formData.append('user_id', userId);
+            console.log("sendind audio file")
+            // Now you can send the formData to your API endpoint using fetch or axios
+            fetch('http://130.61.208.173:5000/audio/new', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server
+                console.log('Upload successful:', data);
+            })
+            .catch(error => {
+                // Handle errors here
+                console.error('Error uploading file:', error);
+            });
+        } else {
+            // Handle the case where either audio file or user_id is missing
+            console.error('Audio file or user_id is missing');
+        }
+    };
+    
 
 
     const handleChangeMeetingURL = (event) => {
@@ -185,8 +216,8 @@ const AppBarHome = () => {
                         </Search>
                     </form>
                     <Button
+
                         component="label"
-                        ref={fileInput}
                         variant="contained"
                         sx={{
                             px: { xs: 3, sm: 1, md: 2 },
@@ -198,10 +229,12 @@ const AppBarHome = () => {
                         }}
                         startIcon={<CloudUploadIcon />}
                         disableElevation
-                        
                     >
                         Upload
-                        <VisuallyHiddenInput type="file" />
+                        <VisuallyHiddenInput type="file"
+                            ref={fileInput}
+                            style={{ display: 'none' }}
+                            onChange={handleUpload} />
                     </Button>
                     <Button
                         variant="contained"
