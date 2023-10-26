@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { styled, alpha } from '@mui/material/styles';
-import { Grid, Paper, Typography, Box, InputBase, Skeleton, Stack } from '@mui/material';
+import { Grid, Paper, Typography, Box, InputBase, Skeleton, Divider } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MeetingCard from '../components/meetingCard';
 import AppBar from '../components/appbarHome';
@@ -122,19 +122,23 @@ const Home = () => {
                     </Grid>
                     <Grid item xs={12} lg={"auto"} sx={{ flexGrow: 1 }}>
                         <Typography component="h1" variant="h3" fontWeight="bold" sx={{ pb: 1, pt: 1, ml: 3 }}>Calendar</Typography>
-                        <Paper sx={{ m: { sx: 0, md: 3 }, p: { sx: 0, md: 3 }, pb: 0 }}>
+                        <Paper sx={{ m: { sx: 0, md: 3 }, p: { sx: 0, md: 3 }, pb: 0, borderRadius: 2 }}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateCalendar
-                                    views={['day', 'month']}
+                                    views={['day', 'month', 'year']}
+                                    fixedWeekNumber={5}
+                                    showDaysOutsideCurrentMonth
+                                    sx={{ height: "290px" }}
                                     value={selectedDate}
                                     onChange={handleDateChange}
                                 />
                             </LocalizationProvider>
                         </Paper>
                         <Typography component="h2" variant="h4" fontWeight="bold" sx={{ pt: 1, ml: 3 }}>Action Items</Typography>
-                        <Paper sx={{ m: { sx: 0, md: 3 }, p: { sx: 0, md: 3 }, pb: 0 }}>
+                        <Paper sx={{ m: { sx: 0, md: 3 }, p: { sx: 0, md: 3 }, pb: 0, borderRadius: 2 }}>
                             {selectedDate.format('DD MMM YYYY')}
                         </Paper>
+
                     </Grid>
                 </Grid>
             </Box >
