@@ -8,7 +8,6 @@ import EventIcon from '@mui/icons-material/Event';
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import dayjs from 'dayjs';
 
 import Colours from '../colours';
 
@@ -33,7 +32,7 @@ export default function MeetingCard(props) {
                     title={
                         <div style={{ display: 'flex', alignItems: "center" }}>
                             <VideocamIcon sx={{ mr: 1 }} />
-                            <Typography component="h3" variant="h5" fontWeight="bold">{meetingData.id}</Typography>
+                            <Typography component="h3" variant="h5" fontWeight="bold">{meetingData.meeting_name}</Typography>
                         </div>
                     }
                     action={
@@ -47,7 +46,7 @@ export default function MeetingCard(props) {
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div style={{ display: 'flex', alignItems: "center" }}>
                             <PersonIcon fontSize="small" sx={{ mr: 1 }} />
-                            <Typography>Hosted by {meetingData.hostName}</Typography>
+                            <Typography>Hosted by {meetingData.host}</Typography>
                         </div>
                     </Typography>
                 </CardContent>
@@ -83,7 +82,7 @@ export default function MeetingCard(props) {
                         <div style={{ display: 'flex', alignItems: "center" }}>
                             <TimelapseIcon fontSize="small" sx={{ mr: 1 }} />
                             <Typography variant="body2" color="textSecondary">
-                                {meetingData.duration}
+                                {Math.round(meetingData.duration)} min
                             </Typography>
                         </div>
                     </Stack>

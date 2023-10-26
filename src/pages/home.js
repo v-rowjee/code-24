@@ -74,7 +74,7 @@ const Home = () => {
                 setLoading(true)
                 const { data } = await axios.get(API_URLS.getMeeting(userId))
                 setLoading(false)
-                // console.log(data)
+                console.log(data)
                 setMeetings(data.meetings)
             } catch (error) {
                 console.error(error)
