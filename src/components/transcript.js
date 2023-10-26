@@ -59,24 +59,28 @@ const Transcript = ({ meetingId }) => {
 
   const handleClickTranscript = (timestamp) => {
     if (timestamp.length === 9) {
-      //format: "hh:mm:ss.fff"
       timestamp = timestamp.slice(0, 5);
     } else {
-      //format: "mm:ss.fff"
       timestamp = timestamp.slice(0, 8);
     }
 
     // Convert the timestamp to seconds
-    const [hours, minutes, seconds] = timestamp.split(":");
-    const totalSeconds =
-      parseInt(hours, 10) * 3600 +
-      parseInt(minutes, 10) * 60 +
-      parseInt(seconds);
-    console.log(totalSeconds);
+    const parts = timestamp.split(":");
+
+    let totalSeconds = 0;
+    if (parts.length === 3) {
+      // The timestamp is in the "hh:mm:ss" format
+      const [hours, minutes, seconds] = parts.map(Number);
+      totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    } else {
+      // The timestamp is in the "mm:ss" format
+      const [minutes, seconds] = parts.map(Number);
+      totalSeconds = minutes * 60 + seconds;
+    }
 
     if (audioPlayerRef.current && audioPlayerRef.current.audio.current) {
       const audioElement = audioPlayerRef.current.audio.current;
-      audioElement.currentTime = 60;
+      audioElement.currentTime = totalSeconds;
       audioElement.play();
     }
   };
