@@ -211,7 +211,7 @@ const AppBarHome = () => {
                         }}
                         startIcon={<LogoutIcon />}
                         disableElevation
-                        onClick={handleLogOut}
+                        onClick={() => handleLogOut()}
                     >
                         Log Out
                     </Button>
