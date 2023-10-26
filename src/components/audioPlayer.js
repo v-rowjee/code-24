@@ -1,25 +1,24 @@
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import React from "react";
-import { AppBar } from "@mui/material";
+import { AppBar, Paper } from "@mui/material";
 import Colours from "../colours";
+import testAudio from "../assets/testAudio.wav"
 
 const AudioPlayerBar = () => {
   return (
-    <AppBar
-      position="sticky"
+    <Paper
       sx={{
-        top: "auto",
-        bottom: 0,
+        position: 'sticky',
+        bottom: 6,
+        mt: 2
       }}
     >
       <AudioPlayer
-        autoPlay
-        src="C:/Users/user/Downloads/5 min.wav"
-        onPlay={(e) => console.log("onPlay")}
-        style={{ marginBottom: "10px" }}
+        src={testAudio}
+        style={{ marginBottom: "10px", borderRadius: "5px" }}
       />
-    </AppBar>
+    </Paper>
   );
 };
 
