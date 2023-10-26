@@ -1,5 +1,6 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Typography, Card, Stack, CardHeader, CardContent, IconButton, Divider, CardActionArea } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import GroupIcon from '@mui/icons-material/Group';
 import PersonIcon from '@mui/icons-material/Person';
@@ -11,23 +12,26 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import Colours from '../colours';
 
 export default function MeetingCard(props) {
-
     const meetingData = props.data
-
     const speakers = meetingData.speakers.join(', ')
+    const navigate = useNavigate();
+
+    const handleRedirectToMeeting = () => {
+        navigate(`/meeting/${meetingData.id}`)
+    }
 
     return (
         <Card elevation={2} sx={{ borderRadius: '7px' }}>
             <CardActionArea
                 component="button"
-                onClick={() => alert(`Go to meeting with id: ${meetingData.name}`)}
+                onClick={handleRedirectToMeeting}
                 sx={{ p: 0 }}
             >
                 <CardHeader
                     title={
                         <div style={{ display: 'flex', alignItems: "center" }}>
                             <VideocamIcon sx={{ mr: 1 }} />
-                            <Typography component="h3" variant="h5" fontWeight="bold">{meetingData.name}</Typography>
+                            <Typography component="h3" variant="h5" fontWeight="bold">{meetingData.id}</Typography>
                         </div>
                     }
                     action={

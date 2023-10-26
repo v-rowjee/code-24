@@ -1,15 +1,17 @@
-import * as React from 'react';
+import React from 'react';
+import axios from 'axios';
 import { styled, alpha } from '@mui/material/styles';
-import { Button, InputBase, IconButton, ListItemText, ListItem, List, ListItemButton, Divider, Drawer, ListItemIcon, Typography, AppBar, Box, Toolbar } from '@mui/material';
+import { Button, InputBase, IconButton, ListItemText, ListItem, List, ListItemButton, Divider, Drawer, ListItemIcon, Typography, AppBar, Box, Toolbar, InputAdornment } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import LinkIcon from '@mui/icons-material/Link';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import SendIcon from '@mui/icons-material/Send';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import Colours from '../colours';
 
-// import UserAuth from '../config/auth';
+import { UserAuth } from '../config/auth';
 
 
 // search input field
@@ -18,7 +20,7 @@ const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(Colours.secondaryOrange, 0.8),
     '&:hover': {
-        backgroundColor: Colours.secondaryOrange,
+        backgroundColor: alpha(Colours.secondaryOrange, 1),
     },
     marginLeft: 0,
     width: '100%',
@@ -43,7 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        paddingLeft: `calc(1em + ${theme.spacing(5)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -68,39 +70,92 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
+// url pattern for google meet
+const googleMeetUrlPattern = /^(https?:\/\/)?(www\.)?meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/;
 
 
-export default function AppBarHome() {
-
+const AppBarHome = () => {
+    const { googleSignOut } = UserAuth();
     const fileInput = React.useRef();
-
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [meetingUrl, setMeetingURL] = React.useState('');
+    const [isMeetingUrlDisabled, setIsMeetingUrlDisabled] = React.useState(true);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
 
-
-    // const { user, logOut } = UserAuth();
-
     const handleLogOut = async () => {
         try {
-            // await logOut()
+            await googleSignOut()
         } catch (error) {
             console.error(error)
         }
     }
 
+    const handleChangeMeetingURL = (event) => {
+        const input = event.target.value;
+
+        setIsMeetingUrlDisabled(input === '')
+
+        const isValid = googleMeetUrlPattern.test(input);
+        setIsMeetingUrlDisabled(!isValid);
+
+        setMeetingURL(input);
+    }
+
+    const handleSubmitMeetingURL = async (event) => {
+        event.preventDefault();
+
+        const input = meetingUrl;
+        const isValid = googleMeetUrlPattern.test(input);
+        setIsMeetingUrlDisabled(!isValid);
+
+        const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJUTkVOMEl5T1RWQk1UZEVRVEEzUlRZNE16UkJPVU00UVRRM016TXlSalUzUmpnMk4wSTBPQSJ9.eyJodHRwczovL3VpcGF0aC9lbWFpbCI6Imxvby5raW0tc29vMUB1bWFpbC51b20uYWMubXUiLCJodHRwczovL3VpcGF0aC9lbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50LnVpcGF0aC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDc0MDE5ODcwNjA3NTk2NDQyMjciLCJhdWQiOlsiaHR0cHM6Ly9vcmNoZXN0cmF0b3IuY2xvdWQudWlwYXRoLmNvbSIsImh0dHBzOi8vdWlwYXRoLmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2OTgyNDQzMjYsImV4cCI6MTY5ODMzMDcyNiwiYXpwIjoiOERFdjFBTU5YY3pXM3k0VTE1TEwzallmNjJqSzkzbjUiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIG9mZmxpbmVfYWNjZXNzIn0.V-o1j0mH4qg_BQYJmyAiZHZx5cW6Z0_CA9_Sn4L2nRrtHd13vB09eyHTAWBl7t4f6VvRtTfc0XVFi9sIPLNoun5_7hEz-PGQ0vXkiwb8HX9klWuAsAvadQr_dNL3Q7QYz8cqqpJAk0uKVsSJDDnO8ifukhVmkQxzXEgR-cmZmrc4pehViaRQFllDlM4IwWNK93N9IzA_AD5ZKKuh5SbAz3ySKFx-RVue9uv8zvJp6zbMHBqbi6kcjhUSI_9E-2P39-3FZR0u1VPS1pNNhYe2XjwYD4RNMHwZesqWCoJxhijWUgvwPGevrAZX2VNH9eVInxScijwmxSKIHXg2pLluAA"; // Replace 'YOUR_ACCESS_TOKEN' with your actual access token
+
+        await axios.post('https://cloud.uipath.com/uomvcizzgy/DefaultTenant/orchestrator_/odata/Queues/UiPathODataSvc.AddQueueItem', {
+            itemData: {
+                DeferDate: "2021-03-11T14:19:56.4407392Z",
+                DueDate: "2021-03-11T15:19:56.4407392Z",
+                Priority: "Normal",
+                Name: "GmeetStartRecording",
+                SpecificContent: {
+                    "meetURL@odata.type": "#String",
+                    meetURL: `${meetingUrl}`,
+                    "newRecordID@odata.type": "#String",
+                    newRecordID: "92376",
+                    "dBChromeProfilePath@odata.type": "#String",
+                    dBChromeProfilePath: "C:/Alex/Docs1/1_Codings/RPA_UIPath/ChromeProfiles/BrowserDataFolder",
+                    "machineID@odata.type": "#String",
+                    machineID: "1"
+                },
+                Reference: "92376"
+            }
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'X-UIPATH-OrganizationUnitId': 4854455
+            }
+        })
+            .then(response => {
+                console.log('Queue item added successfully:', response.data);
+            })
+            .catch(error => {
+                console.error('Error adding queue item:', error);
+            });
+    }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" component="nav">
-                <Toolbar>
+                <Toolbar sx={{ justifyContent: "space-between", px: 1 }}>
                     <IconButton
                         size="large"
                         edge="start"
                         aria-label="open drawer"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
+                        sx={{ display: { sm: 'none' } }}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -108,18 +163,25 @@ export default function AppBarHome() {
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}
                     >
                         CODE-24
                     </Typography>
-                    <Search sx={{ mr: 2 }}>
-                        <SearchIconWrapper>
-                            <LinkIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Paste Meeting URL..."
-                        />
-                    </Search>
+                    <form onSubmit={handleSubmitMeetingURL}>
+                        <Search sx={{ mr: 2 }}>
+                            <SearchIconWrapper>
+                                <VideocamIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Paste Meeting URL"
+                                onChange={handleChangeMeetingURL}
+                                value={meetingUrl}
+                            />
+                            <IconButton type='submit' disabled={isMeetingUrlDisabled} sx={{ display: { xs: "none", md: 'inline-flex' } }}>
+                                <SendIcon fontSize="small" />
+                            </IconButton>
+                        </Search>
+                    </form>
                     <Button
                         component="label"
                         ref={fileInput}
@@ -154,7 +216,7 @@ export default function AppBarHome() {
                         Log Out
                     </Button>
                     <IconButton
-                        sx={{ display: { xs: "flex", sm: 'none' } }}
+                        sx={{ display: { xs: "flex", sm: 'none' }, ml: 1 }}
                         onClick={() => fileInput.current.click()}
                     >
                         <CloudUploadIcon />
@@ -189,7 +251,7 @@ export default function AppBarHome() {
                                 </ListItemButton>
                             </ListItem>
                             <ListItem sx={{ position: "fixed", bottom: 0, maxWidth: "240px" }}>
-                                <ListItemButton selected>
+                                <ListItemButton selected onClick={handleLogOut}>
                                     <ListItemIcon>
                                         <LogoutIcon />
                                     </ListItemIcon>
@@ -203,3 +265,5 @@ export default function AppBarHome() {
         </Box>
     )
 }
+
+export default AppBarHome;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -16,6 +17,7 @@ import { UserAuth } from '../config/auth';
 
 const Login = () => {
     const { googleSignIn, user } = UserAuth();
+    const navigate = useNavigate();
 
     const handleGoogleSignIn = async () => {
         try {
@@ -24,6 +26,12 @@ const Login = () => {
             console.error(error)
         }
     }
+
+    React.useEffect(() => {
+        if (user != null) {
+          navigate('/');
+        }
+      }, [user, navigate]);
 
     return (
         <Grid container component="main" sx={{ height: '100vh' }} >
