@@ -5,60 +5,16 @@ import BottomAppBar from "./audioPlayer";
 import API_URLS from "../url";
 import axios from "axios";
 
-const meetingArray = [
-  {
-    start_time: "00:02.380",
-    text: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    speaker: "aisha a",
-  },
-  {
-    start_time: "00:23.281",
-    text: "This is a long text that may not fit in a single row and should wrap to the next line as needed. This is a long text that may not fit in a single row and should wrap to the next line as needed.",
-    speaker: "mehshar m",
-  },
-  {
-    start_time: "00:26.371",
-    text: "ddddddddddddddddddddddddddd",
-    speaker: "ved v",
-  },
-  {
-    start_time: "00:02.380",
-    text: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    speaker: "aisha a",
-  },
-  {
-    start_time: "00:23.281",
-    text: "This is a long text that may not fit in a single row and should wrap to the next line as needed. This is a long text that may not fit in a single row and should wrap to the next line as needed.",
-    speaker: "mehshar m",
-  },
-  {
-    start_time: "00:26.371",
-    text: "ddddddddddddddddddddddddddd",
-    speaker: "ved v",
-  },
-  {
-    start_time: "00:02.380",
-    text: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    speaker: "aisha a",
-  },
-  {
-    start_time: "00:23.281",
-    text: "This is a long text that may not fit in a single row and should wrap to the next line as needed. This is a long text that may not fit in a single row and should wrap to the next line as needed.",
-    speaker: "mehshar m",
-  },
-  {
-    start_time: "00:26.371",
-    text: "ddddddddddddddddddddddddddd",
-    speaker: "ved v",
-  },
-];
-
 const Transcript = ({ meetingId }) => {
   const [transcriptData, setTranscriptData] = useState([]);
 
   const fetchInfo = async () => {
     try {
-      const response = await axios.get(API_URLS.getTranscripts(meetingId));
+      const idToken = localStorage.getItem("token_flask");
+      const headers = {
+        Authorization: `${idToken}`
+      };
+      const response = await axios.get(API_URLS.getTranscripts(meetingId),{headers});
       setTranscriptData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);

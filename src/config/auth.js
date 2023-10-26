@@ -13,10 +13,17 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
-    // signInWithRedirect(auth, provider)
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken(); // Get the ID token after successful sign-in
+      // Now you can use the idToken as needed, either store it in state or send it to your server
+      console.log(idToken);
+      localStorage.setItem('token_flask', idToken);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const googleSignOut = () => {
