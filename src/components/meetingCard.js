@@ -18,11 +18,11 @@ export default function MeetingCard(props) {
     const participant_list = meetingData.participant_list.join(', ')
 
     const handleRedirectToMeeting = () => {
-        navigate(`/meeting/${meetingData.id}`)
+        navigate(`/meeting/${meetingData.meeting_name}`)
     }
 
     return (
-        <Card sx={{ borderRadius: '7px' }}>
+        <Card sx={{ borderRadius: 2 }}>
             <CardActionArea
                 component="button"
                 onClick={handleRedirectToMeeting}

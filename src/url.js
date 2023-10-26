@@ -12,6 +12,8 @@ const API_URLS = {
   getSentimentScore: (meetingId) => `${BASE_URL}/sentiment_score/${meetingId}`,
   getKeypoint: (meetingId) => `${BASE_URL}/keypoint/${meetingId}`,
   getMeeting: (userId) => `${BASE_URL}/meeting/${userId}`,
+  postMeetingUrl: () => `${BASE_URL}/rpa_bot/`,
+  postAudio: () => `${BASE_URL}/audio/`,
 };
 
 export default API_URLS;

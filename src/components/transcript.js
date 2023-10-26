@@ -84,7 +84,7 @@ const Transcript = ({ meetingId }) => {
           <Box textAlign="start">
             <Button
               sx={{
-                textAlign: "start",
+                textAlign: "justify",
                 textTransform: "none",
                 color: Colours.darkText,
               }}

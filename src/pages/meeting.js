@@ -84,7 +84,7 @@ const Meeting = ({ meetingId }) => {
         <Grid
           item
           xs={12}
-          md={7}
+          md={6}
           marginTop="24px"
           sx={{ borderRight: 1, borderColor: "divider" }}
         >
@@ -94,7 +94,7 @@ const Meeting = ({ meetingId }) => {
         <Grid
           item
           xs={12}
-          md={4}
+          md={5}
           sx={{ borderRight: 1, borderColor: "divider" }}
         >
           <TabPanel value={value} index={0}>
