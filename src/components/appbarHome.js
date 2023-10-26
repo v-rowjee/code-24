@@ -111,7 +111,7 @@ const AppBarHome = () => {
         const isValid = googleMeetUrlPattern.test(input);
         setIsMeetingUrlDisabled(!isValid);
 
-        const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJUTkVOMEl5T1RWQk1UZEVRVEEzUlRZNE16UkJPVU00UVRRM016TXlSalUzUmpnMk4wSTBPQSJ9.eyJodHRwczovL3VpcGF0aC9lbWFpbCI6Imxvby5raW0tc29vMUB1bWFpbC51b20uYWMubXUiLCJodHRwczovL3VpcGF0aC9lbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50LnVpcGF0aC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDc0MDE5ODcwNjA3NTk2NDQyMjciLCJhdWQiOlsiaHR0cHM6Ly9vcmNoZXN0cmF0b3IuY2xvdWQudWlwYXRoLmNvbSIsImh0dHBzOi8vdWlwYXRoLmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2OTgyNDQzMjYsImV4cCI6MTY5ODMzMDcyNiwiYXpwIjoiOERFdjFBTU5YY3pXM3k0VTE1TEwzallmNjJqSzkzbjUiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIG9mZmxpbmVfYWNjZXNzIn0.V-o1j0mH4qg_BQYJmyAiZHZx5cW6Z0_CA9_Sn4L2nRrtHd13vB09eyHTAWBl7t4f6VvRtTfc0XVFi9sIPLNoun5_7hEz-PGQ0vXkiwb8HX9klWuAsAvadQr_dNL3Q7QYz8cqqpJAk0uKVsSJDDnO8ifukhVmkQxzXEgR-cmZmrc4pehViaRQFllDlM4IwWNK93N9IzA_AD5ZKKuh5SbAz3ySKFx-RVue9uv8zvJp6zbMHBqbi6kcjhUSI_9E-2P39-3FZR0u1VPS1pNNhYe2XjwYD4RNMHwZesqWCoJxhijWUgvwPGevrAZX2VNH9eVInxScijwmxSKIHXg2pLluAA"; // Replace 'YOUR_ACCESS_TOKEN' with your actual access token
+        const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJUTkVOMEl5T1RWQk1UZEVRVEEzUlRZNE16UkJPVU00UVRRM016TXlSalUzUmpnMk4wSTBPQSJ9.eyJodHRwczovL3VpcGF0aC9lbWFpbCI6Imxvby5raW0tc29vMUB1bWFpbC51b20uYWMubXUiLCJodHRwczovL3VpcGF0aC9lbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50LnVpcGF0aC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDc0MDE5ODcwNjA3NTk2NDQyMjciLCJhdWQiOlsiaHR0cHM6Ly9vcmNoZXN0cmF0b3IuY2xvdWQudWlwYXRoLmNvbSIsImh0dHBzOi8vdWlwYXRoLmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2OTgzMDI1NDAsImV4cCI6MTY5ODM4ODk0MCwiYXpwIjoiOERFdjFBTU5YY3pXM3k0VTE1TEwzallmNjJqSzkzbjUiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIG9mZmxpbmVfYWNjZXNzIn0.igQUbXUZLujAwo42WmWFmm-5YQPg8vJJgWuwdZh0_e6GdguGlWsnvICM6Xe1d-aAJ9GAjZ_IeyJYnD01Rsdd4t1St1Pm3HfsXM8BVwto48lsh10qQ1Yu1nnii-FBGubHs6WaSjsec6WP4Gn1U8rStZ8mdoFRFHtxWLUaThdDc6nZ9T8aLMbczg18aRXaPae9OV8b3A2Sa9uqBMmtJ-r8zVOpxACcNDcKDfPdyJjIQuaBAe1kQUKQnxAPzqGUXvXnMACPw9TjXTYqmSzDqOq707K1XRvHP5V6_tMh_tBkBGd4dflmWNLkiEpaATWa7MJ2o3vKCGuKB9_lq87XJw18lQ"; // Replace 'YOUR_ACCESS_TOKEN' with your actual access token
 
         await axios.post('https://cloud.uipath.com/uomvcizzgy/DefaultTenant/orchestrator_/odata/Queues/UiPathODataSvc.AddQueueItem', {
             itemData: {
@@ -148,7 +148,7 @@ const AppBarHome = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" component="nav">
+            <AppBar position="fixed" component="nav">
                 <Toolbar sx={{ justifyContent: "space-between", px: 1 }}>
                     <IconButton
                         size="large"

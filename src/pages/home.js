@@ -88,7 +88,7 @@ const Home = () => {
     return (
         <>
             <AppBar />
-            <Box sx={{ p: 3 }} component="main">
+            <Box sx={{ p: 3, mt: "64px" }} component="main">
                 <Grid container justifyContent="space-between" alignItems="center">
                     <Grid item xs={12} md={6}>
                         <Stack direction="row" justifyContent="start" alignItems="center">
