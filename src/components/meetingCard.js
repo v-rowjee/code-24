@@ -8,13 +8,15 @@ import EventIcon from '@mui/icons-material/Event';
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import dayjs from 'dayjs';
 
 import Colours from '../colours';
 
 export default function MeetingCard(props) {
-    const meetingData = props.data
-    const speakers = meetingData.speakers.join(', ')
     const navigate = useNavigate();
+
+    const meetingData = props.data
+    const participant_list = meetingData.participant_list.join(', ')
 
     const handleRedirectToMeeting = () => {
         navigate(`/meeting/${meetingData.id}`)
@@ -54,7 +56,7 @@ export default function MeetingCard(props) {
                         <div style={{ display: 'flex' }}>
                             <GroupIcon fontSize="small" sx={{ mr: 1, mt: 0.2 }} />
                             <Stack direction="row" alignItems="center" sx={{ minWidth: 0, mr: { md: 15 } }}>
-                                <Typography>{speakers}</Typography>
+                                <Typography>{participant_list}</Typography>
                             </Stack>
                         </div>
                     </Typography>
@@ -74,7 +76,7 @@ export default function MeetingCard(props) {
                         <div style={{ display: 'flex', alignItems: "center" }}>
                             <AccessTimeIcon fontSize="small" sx={{ mr: 1 }} />
                             <Typography variant="body2" color="textSecondary">
-                                {meetingData.startTime}
+                                {meetingData.time}
                             </Typography>
                         </div>
 

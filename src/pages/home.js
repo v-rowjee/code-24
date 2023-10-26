@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { styled, alpha } from '@mui/material/styles';
-import { Grid, Stack, Paper, Typography, Box, InputBase } from '@mui/material';
+import { Grid, Paper, Typography, Box, InputBase, Skeleton, Stack } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MeetingCard from '../components/meetingCard';
 import AppBar from '../components/appbarHome';
@@ -10,6 +10,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from 'dayjs';
+import API_URLS from '../url';
+
 
 // Search input field
 const Search = styled('div')(({ theme }) => ({
@@ -54,44 +56,33 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-// Meeting data
-const meetingData = {
-    id: 'xwk-rivn-dlk',
-    speakers: ['Jean Black', 'Paul White', 'Pierre Brown', 'Jack Green'],
-    startTime: '10:35',
-    duration: '13 min',
-    date: '25 Oct 2023',
-    hostName: 'John Doe',
-};
-
 
 const Home = () => {
-
-    const [meetings, setMeetings] = React.useState([meetingData, meetingData, meetingData, meetingData, meetingData]);
-    const [meetingType, setMeetingType] = React.useState('All');
+    const userId = localStorage.getItem('user_id');
+    const [meetings, setMeetings] = React.useState([]);
     const [query, setQuery] = React.useState('');
     const [selectedDate, setSelectedDate] = React.useState(dayjs());
-
-    const handleChange = (event) => {
-        setMeetingType(event.target.value);
-    };
+    const [loading, setLoading] = React.useState(false);
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
 
-    // React.useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const { data } = await axios.get(`http://130.61.208.173:5000/transcription/${query}`)
-    //             setMeetings(data)
-    //         } catch (error) {
-    //             console.error(error)
-    //         }
-    //     }
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const { data } = await axios.get(API_URLS.getMeeting(userId))
+                setLoading(false)
+                // console.log(data)
+                setMeetings(data.meetings)
+            } catch (error) {
+                console.error(error)
+            }
+        }
 
-    //     fetchData()
-    // }, [query, setMeetings])
+        fetchData()
+    }, [])
 
     return (
         <>
@@ -116,6 +107,13 @@ const Home = () => {
                                 </Search>
                             </Grid>
                         </Grid>
+                        {loading &&
+                            <Box>
+                                <Skeleton variant="rectangular" height="200px" sx={{ m: 3, borderRadius: 2 }} />
+                                <Skeleton variant="rectangular" height="200px" sx={{ m: 3, borderRadius: 2 }} />
+                                <Skeleton variant="rectangular" height="200px" sx={{ m: 3, borderRadius: 2 }} />
+                            </Box>
+                        }
                         {meetings.map((data, index) => (
                             <Box sx={{ m: 3 }} id={index} >
                                 <MeetingCard data={data} />

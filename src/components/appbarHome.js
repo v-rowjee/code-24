@@ -76,8 +76,6 @@ const googleMeetUrlPattern = /^(https?:\/\/)?(www\.)?meet\.google\.com\/[a-z]{3}
 
 
 const AppBarHome = () => {
-    const fileInput1 = useRef(null);
-
     const { googleSignOut } = UserAuth();
     const fileInput = React.useRef();
     const [mobileOpen, setMobileOpen] = React.useState(false);

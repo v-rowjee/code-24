@@ -11,6 +11,7 @@ const API_URLS = {
     `${BASE_URL}/efficiency_metric/${meetingId}`,
   getSentimentScore: (meetingId) => `${BASE_URL}/sentiment_score/${meetingId}`,
   getKeypoint: (meetingId) => `${BASE_URL}/keypoint/${meetingId}`,
+  getMeeting: (userId) => `${BASE_URL}/meeting/${userId}`,
 };
 
 export default API_URLS;
