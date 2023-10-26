@@ -1,12 +1,15 @@
 import React from 'react';
+import axios from 'axios';
 import { styled, alpha } from '@mui/material/styles';
-import { Grid, Stack, Select, MenuItem, Typography, Box, InputBase } from '@mui/material';
+import { Grid, Stack, Paper, Typography, Box, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MeetingCard from '../components/meetingCard';
 import AppBar from '../components/appbarHome';
 import Colours from '../colours';
-import axios from 'axios';
-import { MeetingRoom } from '@mui/icons-material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import dayjs from 'dayjs';
 
 // Search input field
 const Search = styled('div')(({ theme }) => ({
@@ -67,68 +70,76 @@ const Home = () => {
     const [meetings, setMeetings] = React.useState([meetingData, meetingData, meetingData, meetingData, meetingData]);
     const [meetingType, setMeetingType] = React.useState('All');
     const [query, setQuery] = React.useState('');
+    const [selectedDate, setSelectedDate] = React.useState(dayjs());
 
     const handleChange = (event) => {
         setMeetingType(event.target.value);
     };
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data } = await axios.get(`http://130.61.208.173:5000/transcription/${query}`)
-                setMeetings(data)
-            } catch (error) {
-                console.error(error)
-            }
-        }
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
 
-        fetchData()
-    }, [query, setMeetings])
+    // React.useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const { data } = await axios.get(`http://130.61.208.173:5000/transcription/${query}`)
+    //             setMeetings(data)
+    //         } catch (error) {
+    //             console.error(error)
+    //         }
+    //     }
+
+    //     fetchData()
+    // }, [query, setMeetings])
 
     return (
         <>
             <AppBar />
             <Box sx={{ p: 3, mt: "64px" }} component="main">
-                <Grid container justifyContent="space-between" alignItems="center">
-                    <Grid item xs={12} md={6}>
-                        <Stack direction="row" justifyContent="start" alignItems="center">
-                            {/* <MeetingRoom sx={{ fontSize: 40, mr: 1 }} /> */}
-                            <Typography component="h1" variant="h3" fontWeight="bold" sx={{ pb: 2, pt: 1 }}>Meetings</Typography>
-                        </Stack>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Stack direction="row" justifyContent="end" alignItems="center">
-                            <Select
-                                value={meetingType}
-                                onChange={handleChange}
-                                sx={{ mr: 2, px: { md: 2 } }}
-                                size='small'
-                            >
-                                <MenuItem value={"All"} sx={{ px: { md: 2 } }} selected>All Meetings</MenuItem>
-                                <MenuItem value={"Hosted"} sx={{ px: { md: 2 } }}>Hosted Only</MenuItem>
-                                <MenuItem value={"Shared"} sx={{ px: { md: 2 } }}>Shared Only</MenuItem>
-                            </Select>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search meeting"
-                                    value={query}
-                                    onChange={event => setQuery(event.target.value)}
-                                />
-                            </Search>
-                        </Stack>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    {meetings.map((data, index) => (
-                        <Grid item xs={12} md={6} key={index} sx={{ p: 2 }}>
-                            <MeetingCard data={data} />
+                <Grid container justifyContent="space-evenly">
+                    <Grid item xs={12} lg={8} sx={{ flexGrow: 1 }}>
+                        <Grid container justifyContent="space-between" alignItems="center" sx={{ mx: 3, width: "auto" }}>
+                            <Grid item xs={12} md={6}>
+                                <Typography component="h1" variant="h3" fontWeight="bold" sx={{ pb: 1, pt: 1, mr: { sx: 3, md: 0 } }}>Meetings</Typography>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Search sx={{ mr: { sx: 6 } }}>
+                                    <SearchIconWrapper>
+                                        <SearchIcon />
+                                    </SearchIconWrapper>
+                                    <StyledInputBase
+                                        placeholder="Search meeting"
+                                        value={query}
+                                        onChange={event => setQuery(event.target.value)}
+                                    />
+                                </Search>
+                            </Grid>
                         </Grid>
-                    ))}
+                        {meetings.map((data, index) => (
+                            <Box sx={{ m: 3 }} id={index} >
+                                <MeetingCard data={data} />
+                            </Box>
+                        ))}
+                    </Grid>
+                    <Grid item xs={12} lg={"auto"} sx={{ flexGrow: 1 }}>
+                        <Typography component="h1" variant="h3" fontWeight="bold" sx={{ pb: 1, pt: 1, ml: 3 }}>Calendar</Typography>
+                        <Paper sx={{ m: { sx: 0, md: 3 }, p: { sx: 0, md: 3 }, pb: 0 }}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateCalendar
+                                    views={['day', 'month']}
+                                    value={selectedDate}
+                                    onChange={handleDateChange}
+                                />
+                            </LocalizationProvider>
+                        </Paper>
+                        <Typography component="h2" variant="h4" fontWeight="bold" sx={{ pt: 1, ml: 3 }}>Action Items</Typography>
+                        <Paper sx={{ m: { sx: 0, md: 3 }, p: { sx: 0, md: 3 }, pb: 0 }}>
+                            {selectedDate.format('DD MMM YYYY')}
+                        </Paper>
+                    </Grid>
                 </Grid>
-            </Box>
+            </Box >
         </>
     )
 }

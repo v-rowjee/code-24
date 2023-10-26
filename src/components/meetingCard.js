@@ -63,7 +63,7 @@ export default function MeetingCard(props) {
                     <Stack
                         direction="row"
                         alignItems="center"
-                        spacing={{ xs: 2, sm: 6 }}
+                        spacing={{ xs: 1, sm: 6 }}
                     >
                         <div style={{ display: 'flex', alignItems: "center" }}>
                             <EventIcon fontSize="small" sx={{ mr: 1 }} />
