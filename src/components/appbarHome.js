@@ -98,14 +98,15 @@ const AppBarHome = () => {
     const handleUpload = () => {
         const formData = new FormData();
         const audioFile = fileInput.current.files[0];
-        const userId = '1234'; // Replace this with your actual user_id logic
+        
+        const userId = localStorage.getItem('user_id') // Replace this with your actual user_id logic
     
         if (audioFile && userId) {
             formData.append('audio', audioFile);
             formData.append('user_id', userId);
             console.log("sendind audio file")
             // Now you can send the formData to your API endpoint using fetch or axios
-            fetch('http://130.61.208.173:5000/audio/new', {
+            fetch('http://130.61.208.173:5000/audio/', {
                 method: 'POST',
                 body: formData,
             })

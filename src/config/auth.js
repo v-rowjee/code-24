@@ -18,8 +18,9 @@ export const AuthContextProvider = ({ children }) => {
     try {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken(); // Get the ID token after successful sign-in
-      // Now you can use the idToken as needed, either store it in state or send it to your server
-      console.log(idToken);
+      const user_id = result.user.uid;
+      const userEmail = result.user.email;
+      localStorage.setItem('user_id', user_id);
       localStorage.setItem('token_flask', idToken);
     } catch (error) {
       console.error(error);
@@ -33,7 +34,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log('User', currentUser)
     });
     return () => {
       unsubscribe();
