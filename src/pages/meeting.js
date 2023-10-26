@@ -110,7 +110,7 @@ const Meeting = ({ meetingId }) => {
             <SentimentAnalysisTab meetingId={meetingId} />
           </TabPanel>
           <TabPanel value={value} index={4}>
-            <MeetingInsightsTab />
+            <MeetingInsightsTab meetingId={meetingId} />
           </TabPanel>
         </Grid>
         {width >= breakpoint ? (
