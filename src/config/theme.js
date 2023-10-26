@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material';
 import Colours from '../colours';
 
+
 const theme = createTheme({
     palette: {
         primary: {
@@ -16,7 +17,7 @@ const theme = createTheme({
     },
     typography: {
         fontFamily: [
-            'Helvetica',
+            'Poppins',
             'sans-serif',
         ].join(','),
     },
