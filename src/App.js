@@ -5,7 +5,7 @@ import { AuthContextProvider } from "./config/auth";
 import Login from "./pages/login";
 import Home from "./pages/home";
 import Meeting from "./pages/meeting";
-
+import Protected from "./components/protected";
 import theme from "./config/theme";
 
 const meetingId = "kabcdef";
@@ -17,10 +17,10 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route index element={<Home />} />
+            <Route index element={<Protected><Home /></Protected>} />
             <Route
               path="/meeting/:meetingId"
-              element={<Meeting meetingId={meetingId} />}
+              element={<Protected><Meeting meetingId={meetingId} /></Protected>}
             />
           </Routes>
         </BrowserRouter>
