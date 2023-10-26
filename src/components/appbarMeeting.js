@@ -11,23 +11,14 @@ import {
   IconButton,
   ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Button,
 } from "@mui/material";
 import { alpha } from '@mui/material/styles';
-import { Menu, Share } from "@mui/icons-material";
+import { Menu, Share, StickyNote2, VpnKey, Category, SentimentVerySatisfied, Insights } from "@mui/icons-material";
 import Colours from "../colours";
 import API_URLS from "../url";
-
-const drawerWidth = 240;
-const navItems = [
-  "Share",
-  "Summary",
-  "Keypoint",
-  "Action Item",
-  "Sentiment Analysis",
-  "Meeting Insight",
-];
 
 const DrawerAppBar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -43,13 +34,46 @@ const DrawerAppBar = () => {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <StickyNote2 />
+            </ListItemIcon>
+            <ListItemText primary="Summary" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <VpnKey />
+            </ListItemIcon>
+            <ListItemText primary="Key Point" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <Category />
+            </ListItemIcon>
+            <ListItemText primary="Action Item" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <SentimentVerySatisfied />
+            </ListItemIcon>
+            <ListItemText primary="Sentiment Analysis" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <Insights />
+            </ListItemIcon>
+            <ListItemText primary="Meeting Insight" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -92,7 +116,6 @@ const DrawerAppBar = () => {
             }}
             startIcon={<Share />}
             disableElevation
-            size="small"
             onClick={() => handleShare()}
           >
             Share
@@ -111,7 +134,7 @@ const DrawerAppBar = () => {
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
+              width: 260,
             },
             backgroundColor: Colours.secondaryOrange,
           }}

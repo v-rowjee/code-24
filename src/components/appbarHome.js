@@ -153,7 +153,7 @@ const AppBarHome = () => {
 
         const user_id = localStorage.getItem('user_id');
 
-        meetingUrlIsLoading(true);
+        setMeetingUrlIsLoading(true);
 
         await axios.post(API_URL.postMeetingUrl, {
             "meetURL": meetingUrl,

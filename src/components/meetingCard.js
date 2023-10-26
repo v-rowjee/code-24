@@ -58,7 +58,7 @@ const MeetingCard = (props) => {
           <Typography variant="body2" color="textSecondary" component="div">
             <div style={{ display: "flex", alignItems: "center" }}>
               <PersonIcon fontSize="small" sx={{ mr: 1 }} />
-              <Typography>Hosted by {meetingData.host}</Typography>
+              <Typography>Hosted by {meetingData.user_name}</Typography>
             </div>
           </Typography>
         </CardContent>
