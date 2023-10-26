@@ -98,16 +98,16 @@ const Meeting = ({ meetingId }) => {
           sx={{ borderRight: 1, borderColor: "divider" }}
         >
           <TabPanel value={value} index={0}>
-            <SummaryTab />
+            <SummaryTab meetingId={meetingId} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <KeyPointsTab />
+            <KeyPointsTab meetingId={meetingId} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <ActionItemsTab />
+            <ActionItemsTab meetingId={meetingId} />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <SentimentAnalysisTab />
+            <SentimentAnalysisTab meetingId={meetingId} />
           </TabPanel>
           <TabPanel value={value} index={4}>
             <MeetingInsightsTab />

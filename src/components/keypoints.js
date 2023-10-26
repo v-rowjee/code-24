@@ -1,25 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Divider, Stack } from "@mui/material";
+import API_URLS from "../url";
+import axios from "axios";
 
-const array = [
-  "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "bbbbbbbbbbbbbbbbbbbbbbbbbbb",
-  "ccccc cccccc cccc cccc cccc cccc cccccc ccccc ccccccc",
-  "ddddddddddddddddddddddddddd",
-];
+const KeyPointsTab = ({ meetingId }) => {
+  const [keyPointsData, setKeyPointsData] = useState([]);
 
-const KeyPointsTab = () => {
+  const fetchInfo = async () => {
+    try {
+      const response = await axios.get(API_URLS.getKeypoint(meetingId));
+      setKeyPointsData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+
   return (
     <>
       <Typography variant="h4">Key Points</Typography>
       <Divider />
-      {array.map((item, index) => (
-        <Stack direction="column" spacing={1} key={index}>
+      {keyPointsData?.keypoint?.map((item, index) => (
+        <Stack direction="column" spacing={1} key={index} marginTop={1}>
           <Typography paragraph textAlign="justify">
-            <ul>
-              <li>{item}</li>
-            </ul>
+            {item}
           </Typography>
+          <Divider />
         </Stack>
       ))}
     </>

@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Divider } from "@mui/material";
+import API_URLS from "../url";
+import axios from "axios";
 
-const SentimentAnalysisTab = () => {
+const SentimentAnalysisTab = ({ meetingId }) => {
+  const [sentimentAnalysisData, setSentimentAnalysisData] = useState([]);
+
+  const fetchInfo = async () => {
+    try {
+      const response = await axios.get(
+        API_URLS.getSentimentAnalysis(meetingId)
+      );
+      setSentimentAnalysisData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+
   return (
     <>
       <Typography variant="h4">Sentiment Analysis</Typography>
       <Divider />
-      <Typography paragraph textAlign="justify">
-        In this meeting, the team discusses tasks for a new project. The first
-        task is data collection, with Ayesha responsible for recording the next
-        session with clients using an existing app. The deadline for this
-        delivery is Thursday. The team also needs to investigate how to generate
-        a transcript using automatic speech recognition, with Junaid assigned to
-        this task. They will evaluate licensed software and open source
-        solutions. The team decides that an audio recording will suffice. The
-        meeting concludes with a discussion about the schedule for the next day.
+      <Typography paragraph textAlign="justify" marginTop={1}>
+        {sentimentAnalysisData.sentiment_analysis}
       </Typography>
     </>
   );

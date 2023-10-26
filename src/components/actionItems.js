@@ -1,39 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Divider, Stack, Chip } from "@mui/material";
 import Colours from "../colours";
+import API_URLS from "../url";
+import axios from "axios";
 
-const itemsArray = [
-  {
-    deadline: "Monday",
-    content: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    owner: "aisha a",
-  },
-  {
-    deadline: "Tuesday",
-    content: "ccccc cccccc cccc cccc cccc cccc cccccc ccccc ccccccc",
-    owner: "mehshar m",
-  },
-  {
-    deadline: "Friday",
-    content: "ddddddddddddddddddddddddddd",
-    owner: "ved v",
-  },
-];
+const ActionItemsTab = ({ meetingId }) => {
+  const [actionItemsData, setActionItemsData] = useState([]);
 
-const ActionItemsTab = () => {
+  const fetchInfo = async () => {
+    try {
+      const response = await axios.get(API_URLS.getActionItem(meetingId));
+      setActionItemsData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+
   return (
     <>
       <Typography variant="h4">Action Items</Typography>
       <Divider />
-      {itemsArray.map((item, index) => (
-        <Stack direction="column" spacing={1} key={index}>
+      {actionItemsData?.action_item?.map((item, index) => (
+        <Stack direction="column" spacing={1} key={index} marginTop={1}>
           <Typography paragraph textAlign="justify">
             {item.content}
           </Typography>
           <Stack direction="row" spacing={1}>
             <Typography>Assigned To:</Typography>
             <Chip
-              label={item.owner}
+              label={item.owner.split(". ")[1]}
               variant="outlined"
               size="small"
               sx={{
