@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Divider, Chip, Avatar } from "@mui/material";
+import { Typography, Divider, Chip, Avatar, Stack } from "@mui/material";
 import API_URLS from "../url";
 import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import Colours from "../colours";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -69,12 +72,105 @@ const MeetingInsightsTab = ({ meetingId }) => {
       <Typography variant="h4">Meeting Insights</Typography>
       <Divider />
       <Divider component="div" sx={{ marginTop: 1 }}>
-        Meeting Time Metrics
+        Speaker Participation
       </Divider>
-
-      <Divider component="div">Speaker Participation</Divider>
-
-      <Divider component="div">Sentiment Score</Divider>
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        mb={1}
+        marginTop={1}
+      >
+        <Typography>Most Dominant Speaker:</Typography>
+        <Chip
+          avatar={
+            <Avatar
+              sx={{
+                bgcolor: Colours.primaryOrange,
+              }}
+            >
+              {speakerParticipationData?.efficiency_metric?.most_dominant_speaker
+                ?.charAt(0)
+                .toUpperCase()}
+            </Avatar>
+          }
+          label={
+            speakerParticipationData?.efficiency_metric?.most_dominant_speaker
+          }
+          variant="outlined"
+          size="small"
+          sx={{
+            color: Colours.primaryOrange,
+            borderColor: Colours.primaryOrange,
+          }}
+        />
+      </Stack>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Typography>Least Engaged Speaker:</Typography>
+        <Chip
+          avatar={
+            <Avatar
+              sx={{
+                bgcolor: Colours.primaryOrange,
+              }}
+            >
+              {speakerParticipationData?.efficiency_metric?.least_engaged_speaker
+                ?.charAt(0)
+                .toUpperCase()}
+            </Avatar>
+          }
+          label={
+            speakerParticipationData?.efficiency_metric?.least_engaged_speaker
+          }
+          variant="outlined"
+          size="small"
+          sx={{
+            color: Colours.primaryOrange,
+            borderColor: Colours.primaryOrange,
+          }}
+        />
+      </Stack>
+      {speakerParticipationData?.efficiency_metric?.speakers_details?.map(
+        (item, index) => (
+          <Stack direction="column" spacing={1} key={index} marginTop={1}>
+            <Chip
+              label={
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Typography>{item.name}</Typography>
+                  <Typography>{item.time}</Typography>
+                  <Stack spacing={1} direction="row" alignItems="center">
+                    <div style={{ width: 24, height: 24 }}>
+                      <CircularProgressbar
+                        value={parseFloat(item.percentage.match(/\d+\.\d+/)[0])}
+                        styles={buildStyles({
+                          pathColor: Colours.primaryOrange,
+                          trailColor: Colours.secondaryOrange,
+                        })}
+                      />
+                    </div>
+                    <Typography>
+                      {item.percentage.replace(/[()]/g, "")}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              }
+              variant="outlined"
+              sx={{
+                color: Colours.darkText,
+                borderColor: Colours.darkText,
+              }}
+            />
+          </Stack>
+        )
+      )}
+      <Divider component="div" sx={{ marginTop: 1 }}>
+        Sentiment Score
+      </Divider>
       <Doughnut data={data} />
     </>
   );
