@@ -14,6 +14,8 @@ const API_URLS = {
   getAudio: (meetingId) => `${BASE_URL}/audio/${meetingId}`,
   //home
   getMeeting: (userId) => `${BASE_URL}/meeting/${userId}`,
+  postMeetingUrl: () => `${BASE_URL}/rpa_bot/`,
+  postAudio: () => `${BASE_URL}/audio/`,
 };
 
 export default API_URLS;
