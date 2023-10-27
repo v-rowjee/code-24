@@ -201,7 +201,7 @@ const AppBarHome = () => {
                             variant="h6"
                             noWrap
                             component="div"
-                            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}
+                            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' }, alignContent: 'center' }}
                         >
                             CODE-24
                         </Typography>

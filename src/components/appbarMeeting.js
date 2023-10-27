@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   AppBar,
@@ -16,7 +17,7 @@ import {
   Button,
 } from "@mui/material";
 import { alpha } from '@mui/material/styles';
-import { Menu, Share, StickyNote2, VpnKey, Category, SentimentVerySatisfied, Insights } from "@mui/icons-material";
+import { Menu, Share, StickyNote2, VpnKey, Category, SentimentVerySatisfied, Insights, NavigateBefore } from "@mui/icons-material";
 import Colours from "../colours";
 import API_URLS from "../url";
 
@@ -79,8 +80,10 @@ const DrawerAppBar = () => {
   );
 
   const handleShare = async () => {
-    await axios.post()
+    // await axios.post()
   }
+
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -98,6 +101,9 @@ const DrawerAppBar = () => {
             sx={{ mr: 2, display: { sm: "none" } }}
           >
             <Menu />
+          </IconButton>
+          <IconButton size="large" sx={{ mr: 1 }} onClick={() => { navigate(-1); }}>
+            <NavigateBefore />
           </IconButton>
           <Typography
             variant="h6"
