@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Divider } from "@mui/material";
+import { Typography, Divider, Paper } from "@mui/material";
 import API_URLS from "../url";
 import axios from "axios";
 
@@ -21,8 +21,7 @@ const SummaryTab = ({ meetingId }) => {
 
   return (
     <>
-      <Typography variant="h4">Summary</Typography>
-      <Divider />
+      <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>Summary</Typography>
       <Typography paragraph textAlign="justify" marginTop={1}>
         {summaryData.summary}
       </Typography>

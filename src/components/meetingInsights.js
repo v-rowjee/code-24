@@ -64,8 +64,7 @@ const MeetingInsightsTab = ({ meetingId }) => {
 
   return (
     <>
-      <Typography variant="h4">Meeting Insights</Typography>
-      <Divider />
+      <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>Meeting Insights</Typography>
       <Divider component="div" sx={{ marginTop: 1 }}>
         Speaker Participation
       </Divider>

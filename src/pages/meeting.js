@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Typography, Box, Tabs, Tab, Tooltip } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import DrawerAppBar from "../components/appbarMeeting";
 import PropTypes from "prop-types";
 import {
@@ -97,23 +98,24 @@ const Meeting = () => {
           item
           xs={12}
           md={5}
-          sx={{ borderRight: 1, borderColor: "divider" }}
         >
-          <TabPanel value={value} index={0}>
-            <SummaryTab meetingId={meetingId} />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <KeyPointsTab meetingId={meetingId} />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <ActionItemsTab meetingId={meetingId} />
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <SentimentAnalysisTab meetingId={meetingId} />
-          </TabPanel>
-          <TabPanel value={value} index={4}>
-            <MeetingInsightsTab meetingId={meetingId} />
-          </TabPanel>
+          <Paper sx={{ mt: 3}}>
+            <TabPanel value={value} index={0}>
+              <SummaryTab meetingId={meetingId} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <KeyPointsTab meetingId={meetingId} />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <ActionItemsTab meetingId={meetingId} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <SentimentAnalysisTab meetingId={meetingId} />
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+              <MeetingInsightsTab meetingId={meetingId} />
+            </TabPanel>
+          </Paper>
         </Grid>
         {width >= breakpoint ? (
           <Grid item xs={12} md={1}>

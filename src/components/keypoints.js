@@ -21,8 +21,7 @@ const KeyPointsTab = ({ meetingId }) => {
 
   return (
     <>
-      <Typography variant="h4">Key Points</Typography>
-      <Divider />
+      <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>Key Points</Typography>
       {keyPointsData?.keypoint?.map((item, index) => (
         <Stack direction="column" spacing={1} key={index} marginTop={1}>
           <Typography paragraph textAlign="justify">

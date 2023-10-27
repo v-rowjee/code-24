@@ -22,8 +22,7 @@ const ActionItemsTab = ({ meetingId }) => {
 
   return (
     <>
-      <Typography variant="h4">Action Items</Typography>
-      <Divider />
+      <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>Action Items</Typography>
       {actionItemsData?.action_item?.map((item, index) => (
         <Stack direction="column" spacing={1} key={index} marginTop={1}>
           <Typography paragraph textAlign="justify">

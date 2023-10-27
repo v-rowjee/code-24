@@ -128,8 +128,7 @@ const Transcript = ({ meetingId }) => {
 
   return (
     <Box marginRight="24px">
-      <Typography variant="h4">Transcript</Typography>
-      <Divider />
+      <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>Transcript</Typography>
       {transcriptData?.transcript?.map((item, index) => (
         <Stack direction="column" spacing={1} key={index} marginTop={1}>
           <Stack direction="row" spacing={2} alignItems="center">
