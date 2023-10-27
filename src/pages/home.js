@@ -8,6 +8,7 @@ import {
   Box,
   InputBase,
   Skeleton,
+  Divider,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MeetingCard from "../components/meetingCard";
@@ -64,24 +65,34 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Home = () => {
   const userId = localStorage.getItem("user_id");
   const [meetings, setMeetings] = React.useState([]);
-  const [query, setQuery] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(dayjs());
   const [actionItems, setActionItems] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
-  const handleDateChange = (date) => {
+  const handleDateChange = async (date) => {
+    await showActionItems(date);
     setSelectedDate(date);
   };
+
+  const showActionItems = async (date) => {
+    try {
+      const actionItemData = await axios.get(API_URLS.getActionItems(date));
+      setActionItems(actionItemData.data.action_items);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const { data } = await axios.get(API_URLS.getMeetings(userId));
-        // const { actionItemData } = await axios.get(API_URLS.getActionItems(selectedDate));
+        const actionItemData = await axios.get(API_URLS.getActionItems(selectedDate));
+        console.log(actionItemData)
         setLoading(false);
         setMeetings(data.meetings);
-        // setActionItems(actionItemData.actionItems);
+        setActionItems(actionItemData.data.action_items);
       } catch (error) {
         console.error(error);
       }
@@ -112,21 +123,9 @@ const Home = () => {
                   Meetings
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <Search sx={{ mr: { sx: 6 } }}>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search meeting"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                  />
-                </Search>
-              </Grid>
             </Grid>
-            {loading && (
-              <Box>
+            {loading
+              ? <Box>
                 <Skeleton
                   variant="rectangular"
                   height="200px"
@@ -143,12 +142,16 @@ const Home = () => {
                   sx={{ m: 3, borderRadius: 2 }}
                 />
               </Box>
-            )}
-            {meetings.map((data, index) => (
-              <Box sx={{ m: 3 }} id={index}>
-                <MeetingCard data={data} />
+
+              : <Box>{
+                meetings.map((data, index) => (
+                  <Box sx={{ m: 3 }} id={index}>
+                    <MeetingCard data={data} />
+                  </Box>
+                ))
+              }
               </Box>
-            ))}
+            }
           </Grid>
           <Grid item xs={12} md={"auto"} sx={{ flexGrow: 1 }}>
             <Typography
@@ -197,12 +200,16 @@ const Home = () => {
                   p: { sx: 0, md: 3 },
                   pb: 0,
                   borderRadius: 2,
+                  maxWidth: "365px",
                 }}
               >
-                {selectedDate.format("DD MMM YYYY")}
-                {/* {actionItems.map((data, index) => (
-                  <Typography key={index}>{data}</Typography>
-                ))} */}
+                <Typography component="h5" variant="h6" fontWeight="bold" sx={{ mb: 1 }}>{selectedDate.format("DD MMM YYYY")}</Typography>
+                {actionItems.map((data, index) => (
+                  <>
+                    <Typography key={index}>{data.content}</Typography>
+                    <Divider sx={{ my: 2 }} />
+                  </>
+                ))}
               </Paper>
             }
           </Grid>
