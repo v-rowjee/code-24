@@ -19,8 +19,7 @@ const API_URLS = {
   getMeetings: (userId) => `${BASE_URL}/meeting/${userId}`,
   postMeetingUrl: `${BASE_URL}/rpa_bot/`,
   postAudio: `${BASE_URL}/audio/`,
-  getActionItems: (selectedDate) => `${BASE_URL}/rtyguhiuhygtfrdesrcvbhuygtfrdftg/${selectedDate}`,
-
+  getActionItems: (selectedDate) => `${BASE_URL}/query_action_item/${selectedDate.format("YYYY-MM-DD")}`,
 };
 
 export default API_URLS;
