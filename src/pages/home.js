@@ -10,7 +10,6 @@ import {
   Skeleton,
   Divider,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import MeetingCard from "../components/meetingCard";
 import AppBar from "../components/appbarHome";
 import Colours from "../colours";
@@ -20,58 +19,20 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
 import API_URLS from "../url";
 
-// Search input field
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(Colours.cardText, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(Colours.cardText, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("md")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "15ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
 
 const Home = () => {
   const userId = localStorage.getItem("user_id");
   const [meetings, setMeetings] = React.useState([]);
   const [selectedDate, setSelectedDate] = React.useState(dayjs());
   const [actionItems, setActionItems] = React.useState([]);
+  const [loadingActionItems, setLoadingActionItems] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   const handleDateChange = async (date) => {
+    setLoadingActionItems(true);
     await showActionItems(date);
     setSelectedDate(date);
+    setLoadingActionItems(false);
   };
 
   const showActionItems = async (date) => {
@@ -88,17 +49,26 @@ const Home = () => {
       try {
         setLoading(true);
         const { data } = await axios.get(API_URLS.getMeetings(userId));
-        const actionItemData = await axios.get(API_URLS.getActionItems(selectedDate));
-        console.log(actionItemData)
         setLoading(false);
         setMeetings(data.meetings);
-        setActionItems(actionItemData.data.action_items);
       } catch (error) {
         console.error(error);
       }
     };
 
+    const fetchDataActionItems = async () => {
+      try {
+        setLoadingActionItems(true);
+        const actionItemData = await axios.get(API_URLS.getActionItems(selectedDate));
+        setLoadingActionItems(false);
+        setActionItems(actionItemData.data.action_items);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     fetchData();
+    fetchDataActionItems();
   }, []);
 
   return (
@@ -125,23 +95,25 @@ const Home = () => {
               </Grid>
             </Grid>
             {loading
-              ? <Box>
-                <Skeleton
-                  variant="rectangular"
-                  height="200px"
-                  sx={{ m: 3, borderRadius: 2 }}
-                />
-                <Skeleton
-                  variant="rectangular"
-                  height="200px"
-                  sx={{ m: 3, borderRadius: 2 }}
-                />
-                <Skeleton
-                  variant="rectangular"
-                  height="200px"
-                  sx={{ m: 3, borderRadius: 2 }}
-                />
-              </Box>
+              ? (
+                <>
+                  <Skeleton
+                    variant="rectangular"
+                    height="200px"
+                    sx={{ m: 3, borderRadius: 2 }}
+                  />
+                  <Skeleton
+                    variant="rectangular"
+                    height="200px"
+                    sx={{ m: 3, borderRadius: 2 }}
+                  />
+                  <Skeleton
+                    variant="rectangular"
+                    height="200px"
+                    sx={{ m: 3, borderRadius: 2 }}
+                  />
+                </>
+              )
 
               : <Box>{
                 meetings.map((data, index) => (
@@ -162,7 +134,7 @@ const Home = () => {
             >
               Calendar
             </Typography>
-            {loading
+            {loadingActionItems
               ? <Skeleton variant="rectangular" height="290px" width="365px" sx={{ m: 3, borderRadius: 2 }} />
               : <Paper
                 sx={{
@@ -192,7 +164,7 @@ const Home = () => {
             >
               Action Items
             </Typography>
-            {loading
+            {loadingActionItems
               ? <Skeleton variant="rectangular" height="290px" width="365px" sx={{ m: 3, borderRadius: 2 }} />
               : <Paper
                 sx={{
@@ -207,7 +179,7 @@ const Home = () => {
                 {actionItems.map((data, index) => (
                   <>
                     <Typography key={index}>{data.content}</Typography>
-                    <Divider sx={{ my: 2 }} />
+                    {index < actionItems.length - 1 && <Divider sx={{ my: 2 }} />}
                   </>
                 ))}
               </Paper>
