@@ -8,7 +8,6 @@ import {
   Box,
   InputBase,
   Skeleton,
-  Divider,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MeetingCard from "../components/meetingCard";
@@ -67,6 +66,7 @@ const Home = () => {
   const [meetings, setMeetings] = React.useState([]);
   const [query, setQuery] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(dayjs());
+  const [actionItems, setActionItems] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
   const handleDateChange = (date) => {
@@ -77,9 +77,11 @@ const Home = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(API_URLS.getMeeting(userId));
+        const { data } = await axios.get(API_URLS.getMeetings(userId));
+        // const { actionItemData } = await axios.get(API_URLS.getActionItems(selectedDate));
         setLoading(false);
         setMeetings(data.meetings);
+        // setActionItems(actionItemData.actionItems);
       } catch (error) {
         console.error(error);
       }
@@ -157,25 +159,28 @@ const Home = () => {
             >
               Calendar
             </Typography>
-            <Paper
-              sx={{
-                m: { sx: 0, md: 3 },
-                p: { sx: 0, md: 3 },
-                pb: 0,
-                borderRadius: 2,
-              }}
-            >
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar
-                  views={["day", "month", "year"]}
-                  fixedWeekNumber={5}
-                  showDaysOutsideCurrentMonth
-                  sx={{ height: "290px" }}
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                />
-              </LocalizationProvider>
-            </Paper>
+            {loading
+              ? <Skeleton variant="rectangular" height="290px" width="365px" sx={{ m: 3, borderRadius: 2 }} />
+              : <Paper
+                sx={{
+                  m: { sx: 0, md: 3 },
+                  p: { sx: 0, md: 3 },
+                  pb: 0,
+                  borderRadius: 2,
+                }}
+              >
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateCalendar
+                    views={["day", "month", "year"]}
+                    fixedWeekNumber={5}
+                    showDaysOutsideCurrentMonth
+                    sx={{ height: "290px" }}
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                  />
+                </LocalizationProvider>
+              </Paper>
+            }
             <Typography
               component="h2"
               variant="h4"
@@ -184,19 +189,25 @@ const Home = () => {
             >
               Action Items
             </Typography>
-            <Paper
-              sx={{
-                m: { sx: 0, md: 3 },
-                p: { sx: 0, md: 3 },
-                pb: 0,
-                borderRadius: 2,
-              }}
-            >
-              {selectedDate.format("DD MMM YYYY")}
-            </Paper>
+            {loading
+              ? <Skeleton variant="rectangular" height="290px" width="365px" sx={{ m: 3, borderRadius: 2 }} />
+              : <Paper
+                sx={{
+                  m: { sx: 0, md: 3 },
+                  p: { sx: 0, md: 3 },
+                  pb: 0,
+                  borderRadius: 2,
+                }}
+              >
+                {selectedDate.format("DD MMM YYYY")}
+                {/* {actionItems.map((data, index) => (
+                  <Typography key={index}>{data}</Typography>
+                ))} */}
+              </Paper>
+            }
           </Grid>
         </Grid>
-      </Box>
+      </Box >
     </>
   );
 };

@@ -13,10 +13,14 @@ const API_URLS = {
   getKeypoint: (meetingId) => `${BASE_URL}/keypoint/${meetingId}`,
   getAudio: (meetingId) => `${BASE_URL}/retrieve_audio/${meetingId}`,
   postSpeakerName: `${BASE_URL}/change_speaker_name/`,
+  shareMeeting: `${BASE_URL}/share_meeting/`,
+
   //home
-  getMeeting: (userId) => `${BASE_URL}/meeting/${userId}`,
+  getMeetings: (userId) => `${BASE_URL}/meeting/${userId}`,
   postMeetingUrl: `${BASE_URL}/rpa_bot/`,
   postAudio: `${BASE_URL}/audio/`,
+  getActionItems: (selectedDate) => `${BASE_URL}/rtyguhiuhygtfrdesrcvbhuygtfrdftg/${selectedDate}`,
+
 };
 
 export default API_URLS;
