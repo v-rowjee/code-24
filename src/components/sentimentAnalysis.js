@@ -26,7 +26,7 @@ const SentimentAnalysisTab = ({ meetingId }) => {
       <Typography variant="h4">Sentiment Analysis</Typography>
       <Divider />
       <Typography paragraph textAlign="justify" marginTop={1}>
-        {sentimentAnalysisData.sentiment_analysis}
+        {sentimentAnalysisData.sentiment_analysis.replace(/-/g, "").trim()}
       </Typography>
     </>
   );

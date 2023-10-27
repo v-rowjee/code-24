@@ -132,7 +132,7 @@ const MeetingInsightsTab = ({ meetingId }) => {
               label={
                 <Stack
                   direction="row"
-                  spacing={1}
+                  spacing={4}
                   alignItems="center"
                   justifyContent="space-between"
                 >

@@ -19,7 +19,6 @@ import {
 import { alpha } from "@mui/material/styles";
 import {
   Menu,
-  Share,
   StickyNote2,
   VpnKey,
   Category,
@@ -103,12 +102,6 @@ const DrawerAppBar = () => {
     </Box>
   );
 
-  const handleShare = async () => {
-    // await axios.post(API_URLS.shareMeeting, {
-    //   "user_id": localStorage.getItem("user_id"),
-    // })
-  };
-
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -143,19 +136,6 @@ const DrawerAppBar = () => {
             >
               MEETING
             </Typography>
-            <Button
-              variant="contained"
-              sx={{
-                textTransform: "none",
-                backgroundColor: alpha(Colours.secondaryOrange, 0.8),
-                "&:hover": { backgroundColor: Colours.secondaryOrange },
-                ml: "auto",
-              }}
-              startIcon={<Share />}
-              disableElevation
-            >
-              Share
-            </Button>
           </Toolbar>
         </AppBar>
         <nav>
