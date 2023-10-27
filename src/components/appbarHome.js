@@ -116,9 +116,7 @@ const AppBarHome = () => {
     const formData = new FormData();
     const audioFile = fileInput.current.files[0];
 
-    const userId = localStorage.getItem("user_id"); // Replace this with your actual user_id logic
-    const userEmail = localStorage.getItem("user_email"); // Replace this with your actual user_email logic
-    const userName = localStorage.getItem("user_name"); // Replace this with your actual user_name logic
+    const userId = localStorage.getItem("user_id");
     if (audioFile && userId) {
       formData.append("audio", audioFile);
       formData.append("user_id", userId);
@@ -182,6 +180,8 @@ const AppBarHome = () => {
       .finally(() => {
         setMeetingURL("");
       });
+
+    window.location.reload();
   };
 
   return (

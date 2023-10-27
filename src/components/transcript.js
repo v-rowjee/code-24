@@ -120,11 +120,11 @@ const Transcript = ({ meetingId }) => {
     handleClose();
   };
 
-  function handleChange(event) {
+  const handleChange = (event) => {
     // gives the value of the targetted element
     let value = event.target.value;
     setValue(value);
-  }
+  };
 
   return (
     <Box marginRight="24px">
