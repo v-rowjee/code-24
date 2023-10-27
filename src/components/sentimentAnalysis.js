@@ -23,9 +23,11 @@ const SentimentAnalysisTab = ({ meetingId }) => {
 
   return (
     <>
-      <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>Sentiment Analysis</Typography>
+      <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>
+        Sentiment Analysis
+      </Typography>
       <Typography paragraph textAlign="justify" marginTop={1}>
-        {sentimentAnalysisData.sentiment_analysis.replace(/-/g, "").trim()}
+        {sentimentAnalysisData.sentiment_analysis}
       </Typography>
     </>
   );
