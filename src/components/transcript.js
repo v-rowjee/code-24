@@ -9,10 +9,25 @@ import {
   Box,
   Button,
   Paper,
+  IconButton,
+  Tooltip,
+  TextField,
+  Slide,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 import Colours from "../colours";
 import API_URLS from "../url";
 import axios from "axios";
+
+//modal
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
 const Transcript = ({ meetingId }) => {
   const [transcriptData, setTranscriptData] = useState([]);
@@ -85,6 +100,32 @@ const Transcript = ({ meetingId }) => {
     }
   };
 
+  //edit modal
+  const [open, setOpen] = useState(false);
+  const [oldSpeakerName, setOldSpeakerName] = React.useState("");
+  const [value, setValue] = useState("");
+  const handleOpen = (name) => {
+    setOpen(true);
+    setOldSpeakerName(name);
+  };
+  const handleClose = () => setOpen(false);
+
+  const handleSubmit = async () => {
+    await axios.post(API_URLS.postSpeakerName, {
+      meeting_id: meetingId,
+      old_speakername: oldSpeakerName,
+      new_speakername: value,
+    });
+    window.location.reload();
+    handleClose();
+  };
+
+  function handleChange(event) {
+    // gives the value of the targetted element
+    let value = event.target.value;
+    setValue(value);
+  }
+
   return (
     <Box marginRight="24px">
       <Typography variant="h4">Transcript</Typography>
@@ -97,12 +138,48 @@ const Transcript = ({ meetingId }) => {
             >
               {item.speaker.charAt(0).toUpperCase()}
             </Avatar>
+
             <Typography sx={{ fontWeight: 600 }}>{item.speaker}</Typography>
+
             <Typography sx={{ color: Colours.cardText }}>
               {item.start_time.length === 9
                 ? item.start_time.slice(0, 5)
                 : item.start_time.slice(0, 8)}
             </Typography>
+            <div>
+              <Tooltip title="Edit Speaker Name" arrow placement="top">
+                <IconButton
+                  size="small"
+                  color="primary"
+                  onClick={() => handleOpen(item.speaker)}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                keepMounted
+                TransitionComponent={Transition}
+              >
+                <DialogTitle>Edit Speaker Name</DialogTitle>
+                <DialogContent dividers>
+                  <TextField
+                    margin="dense"
+                    onChange={handleChange}
+                    value={value}
+                    id="name"
+                    label="Speaker Name"
+                    variant="outlined"
+                    fullWidth
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={handleSubmit}>Save</Button>
+                </DialogActions>
+              </Dialog>
+            </div>
           </Stack>
           <Box textAlign="start">
             <Button
